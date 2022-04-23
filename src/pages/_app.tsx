@@ -27,9 +27,9 @@ const AppContentWrapper = ({
     return <p>Oupsi</p>
   }
 
-  if (!needAuth) {
-    return <Component {...pageProps} {...othersProps} />
-  }
+  // if (!needAuth) {
+  //   return <Component {...pageProps} {...othersProps} />
+  // }
 
   return (
     <ModalContextProvider>
