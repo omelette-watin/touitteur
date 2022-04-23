@@ -10,7 +10,7 @@ const AppContentWrapper = ({
 }: AppProps) => {
   return (
     <ModalContextProvider>
-      <Layout>
+      <Layout title={pageProps.title}>
         <Component {...pageProps} {...othersProps} />
       </Layout>
     </ModalContextProvider>

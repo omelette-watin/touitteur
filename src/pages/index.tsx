@@ -1,4 +1,4 @@
-import type { NextPage } from "next"
+import type { GetStaticProps, NextPage } from "next"
 import Head from "next/head"
 
 const Home: NextPage = () => {
@@ -13,3 +13,11 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {
+      title: "Home",
+    },
+  }
+}
