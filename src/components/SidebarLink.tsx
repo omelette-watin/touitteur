@@ -14,7 +14,7 @@ const SidebarLink = ({
   children,
   active,
   link = "/",
-}: SidebarLinkProps) => {
+}: SidebarLinkProps): JSX.Element => {
   return (
     <Link href={link}>
       <a className="block">
