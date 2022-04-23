@@ -1,6 +1,6 @@
 import { AuthContext } from "@/contexts/AuthContext"
-import { useContext } from "react"
+import useContextAndErrorIfNull from "./useContextAndErrorIfNull"
 
-const useAuth = () => useContext(AuthContext)
+const useAuth = () => useContextAndErrorIfNull(AuthContext)
 
 export default useAuth

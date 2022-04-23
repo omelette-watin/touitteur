@@ -1,6 +1,6 @@
 import { ModalContext } from "@/contexts/ModalContext"
-import { useContext } from "react"
+import useContextAndErrorIfNull from "./useContextAndErrorIfNull"
 
-const useModal = () => useContext(ModalContext)
+const useModal = () => useContextAndErrorIfNull(ModalContext)
 
 export default useModal
