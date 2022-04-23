@@ -3,6 +3,10 @@ import { AuthContextType } from "@/types/auth"
 import { useRouter } from "next/router"
 import { createContext, ReactNode, useState, useEffect } from "react"
 
+interface CommonHeaderProperties {
+  "x-access-token": string | null
+}
+
 export const AuthContext = createContext<AuthContextType | null>(null)
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
@@ -12,10 +16,15 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     ;(async () => {
-      const token = localStorage.getItem("token")
+      const token: string | null = localStorage.getItem("token")
 
       if (token) {
-        api.defaults.headers["x-access-token"] = token
+        ;(
+          api.defaults.headers! as unknown as Record<
+            string,
+            CommonHeaderProperties
+          >
+        ).common["x-access-token"] = token
 
         try {
           const { data } = await api.get("/user/me")
