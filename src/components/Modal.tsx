@@ -1,18 +1,18 @@
-import useClickOutside from "@/hooks/useClickOutside"
+import useOnClickOutside from "@/hooks/useOnClickOutside"
 import useModal from "@/hooks/useModal"
 import classNames from "classnames"
+import { useRef } from "react"
 import Button from "./ui/Button"
 
 const Modal = (): JSX.Element => {
   const { modal, setModal } = useModal()
+  const modalContentRef = useRef<HTMLDivElement>(null)
   const handleCloseModal = () => {
     if (modal) {
       setModal("")
     }
   }
-  const nodeDom = useClickOutside(() => {
-    handleCloseModal()
-  })
+  useOnClickOutside(modalContentRef, handleCloseModal)
 
   return (
     <div
@@ -25,7 +25,7 @@ const Modal = (): JSX.Element => {
     >
       <div
         className="rounded-lg bg-slate-200 p-3 text-center text-black"
-        ref={nodeDom}
+        ref={modalContentRef}
       >
         <h1 className="text-xl">Modal Content Place Holder</h1>
         <p>Click out side to close whole Modal</p>
