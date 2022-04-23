@@ -1,4 +1,5 @@
 import { ReactChild } from "react"
+import Modal from "./Modal"
 import Sidebar from "./Sidebar"
 
 interface LayoutProps {
@@ -12,6 +13,7 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
         <Sidebar />
         {children}
       </main>
+      <Modal />
     </>
   )
 }

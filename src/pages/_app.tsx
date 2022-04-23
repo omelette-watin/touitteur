@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout"
+import { ModalContextProvider } from "@/contexts/ModalContext"
 import "@/styles/globals.css"
 import type { AppProps } from "next/app"
 
@@ -8,9 +9,11 @@ const AppContentWrapper = ({
   ...othersProps
 }: AppProps) => {
   return (
-    <Layout>
-      <Component {...pageProps} {...othersProps} />
-    </Layout>
+    <ModalContextProvider>
+      <Layout>
+        <Component {...pageProps} {...othersProps} />
+      </Layout>
+    </ModalContextProvider>
   )
 }
 const App = (props: AppProps) => {

@@ -12,8 +12,14 @@ import {
   DotsCircleHorizontalIcon,
 } from "@heroicons/react/outline"
 import Button from "./ui/Button"
+import useModal from "@/hooks/useModal"
 
 const Sidebar = (): JSX.Element => {
+  const { setModal } = useModal()
+  const handleOpenTweetModal = () => {
+    setModal("tweet")
+  }
+
   return (
     <div className="fixed hidden h-full flex-col items-center p-2 sm:flex xl:w-[340px] xl:items-start">
       <Link href={"/"}>
@@ -36,8 +42,16 @@ const Sidebar = (): JSX.Element => {
         <SidebarLink Icon={UserIcon}>Profile</SidebarLink>
         <SidebarLink Icon={DotsCircleHorizontalIcon}>More</SidebarLink>
       </div>
-      <Button className="ml-auto hidden h-[52px] w-56 xl:inline">Tweet</Button>
-      <Button className="flex items-center justify-center p-3 xl:hidden">
+      <Button
+        className="ml-auto hidden h-[52px] w-56 xl:inline"
+        onClick={handleOpenTweetModal}
+      >
+        Tweet
+      </Button>
+      <Button
+        className="flex items-center justify-center p-3 xl:hidden"
+        onClick={handleOpenTweetModal}
+      >
         <svg
           viewBox="0 0 24 24"
           aria-hidden="true"
