@@ -5,6 +5,11 @@ import { ModalContextProvider } from "@/contexts/ModalContext"
 import useAuth from "@/hooks/useAuth"
 import "@/styles/globals.css"
 import type { AppProps } from "next/app"
+import TimeAgo from "javascript-time-ago"
+import en from "javascript-time-ago/locale/en.json"
+
+TimeAgo.setDefaultLocale(en.locale)
+TimeAgo.addLocale(en)
 
 const AppContentWrapper = ({
   Component,
@@ -12,9 +17,18 @@ const AppContentWrapper = ({
   ...othersProps
 }: AppProps) => {
   const { user, loading } = useAuth()
+  const { needAuth } = pageProps
 
   if (loading) {
     return <LoadingPage />
+  }
+
+  if (!user && needAuth) {
+    return <p>Oupsi</p>
+  }
+
+  if (!needAuth) {
+    return <Component {...pageProps} {...othersProps} />
   }
 
   return (
