@@ -24,7 +24,6 @@ import useAuth from "@/hooks/useAuth"
 import api from "@/api/api"
 import { useRouter } from "next/router"
 import stopPropagation from "@/utils/stopPropagation"
-import el from "date-fns/esm/locale/el/index.js"
 
 const Tweet = ({ element }: { element: TweetType | TweetEventType }) => {
   const router = useRouter()
@@ -44,18 +43,20 @@ const Tweet = ({ element }: { element: TweetType | TweetEventType }) => {
     e.stopPropagation()
     setLiking(true)
     api.post(`/tweets/${tweet.id}/like`).then(() => {
-      if (isLiked) {
-        setLikesCount((prev) => prev - 1)
-        setUser({
-          ...user,
-          likes: user?.likes.filter((like) => like !== tweet.id),
-        })
-      } else {
-        setLikesCount((prev) => prev + 1)
-        setUser({
-          ...user,
-          likes: user?.likes.concat(tweet.id),
-        })
+      if (user) {
+        if (isLiked) {
+          setLikesCount((prev) => prev - 1)
+          setUser({
+            ...user,
+            likes: user?.likes.filter((like) => like !== tweet.id),
+          })
+        } else {
+          setLikesCount((prev) => prev + 1)
+          setUser({
+            ...user,
+            likes: user?.likes.concat(tweet.id),
+          })
+        }
       }
 
       setLiking(false)
@@ -65,18 +66,20 @@ const Tweet = ({ element }: { element: TweetType | TweetEventType }) => {
     e.stopPropagation()
     setRetweeting(true)
     api.post(`/tweets/${tweet.id}/retweet`).then(() => {
-      if (isRetweeted) {
-        setRetweetsCount(retweetsCount - 1)
-        setUser({
-          ...user,
-          retweets: user?.retweets.filter((retweet) => retweet !== tweet.id),
-        })
-      } else {
-        setRetweetsCount(retweetsCount + 1)
-        setUser({
-          ...user,
-          retweets: user?.retweets.concat(tweet.id),
-        })
+      if (user) {
+        if (isRetweeted) {
+          setRetweetsCount(retweetsCount - 1)
+          setUser({
+            ...user,
+            retweets: user?.retweets.filter((retweet) => retweet !== tweet.id),
+          })
+        } else {
+          setRetweetsCount(retweetsCount + 1)
+          setUser({
+            ...user,
+            retweets: user?.retweets.concat(tweet.id),
+          })
+        }
       }
 
       setRetweeting(false)
@@ -113,14 +116,14 @@ const Tweet = ({ element }: { element: TweetType | TweetEventType }) => {
               <>
                 <AnnotationIcon className="h-8 p-2" />
                 Replying to
-                <Link href={`/${tweet.originalTweet.author.username}`}>
+                <Link href={`/${tweet.originalTweet?.author.username}`}>
                   <a
                     onClick={(e) => {
                       stopPropagation(e)
                     }}
                     className="text-twitter ml-1 underline-offset-1 hover:underline"
                   >
-                    @{tweet.originalTweet.author.username}
+                    @{tweet.originalTweet?.author.username}
                   </a>
                 </Link>
               </>

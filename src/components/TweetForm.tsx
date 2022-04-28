@@ -13,6 +13,7 @@ import SubmitButton from "./SubmitButton"
 import Tooltip from "./ui/Tooltip"
 import useAuth from "@/hooks/useAuth"
 import usePostedTweets from "@/hooks/usePostedTweets"
+import { UserType } from "@/types/user"
 
 const MAX_CHARS_ALLOWED = 140
 const TweetForm = ({ replying }: { replying: TweetType | null }) => {
@@ -40,14 +41,10 @@ const TweetForm = ({ replying }: { replying: TweetType | null }) => {
             likes: 0,
             retweets: 0,
           },
-          author: {
-            id: user?.id,
-            username: user?.username,
-            profileName: user?.profileName,
-            urlAvatar: user?.urlAvatar,
-          },
+          author: user as UserType,
         }
-        setPostedTweets(postedTweets.concat(newTweet))
+
+        setPostedTweets([...postedTweets, newTweet])
         setSubmitting(false)
       })
     } else {
@@ -64,12 +61,7 @@ const TweetForm = ({ replying }: { replying: TweetType | null }) => {
               likes: 0,
               retweets: 0,
             },
-            author: {
-              id: user?.id,
-              username: user?.username,
-              profileName: user?.profileName,
-              urlAvatar: user?.urlAvatar,
-            },
+            author: user as UserType,
             orginalTweet: {
               tweetId: replying.id,
               author: {
@@ -77,7 +69,7 @@ const TweetForm = ({ replying }: { replying: TweetType | null }) => {
               },
             },
           }
-          setPostedTweets(postedTweets.concat(newTweet))
+          setPostedTweets([...postedTweets, newTweet])
           setSubmitting(false)
         })
     }

@@ -12,7 +12,9 @@ const ProfileForm = () => {
   const { user, setUser } = useAuth()
   const [profileName, setProfileName] = useState(user?.profileName)
   const [bio, setBio] = useState(user?.bio || "")
-  const [urlAvatar, setUrlAvatar] = useState(user?.urlAvatar)
+  const [urlAvatar, setUrlAvatar] = useState(
+    user?.urlAvatar || "/avatars/default.png"
+  )
   const [image, setImage] = useState(null)
   const handleChangeProfileName = (e: any) => {
     if (e.target.value.length <= PROFILENAME_MAX_CHAR) {
@@ -30,12 +32,15 @@ const ProfileForm = () => {
       .post("/users/me", { bio, profileName, urlAvatar })
       .then(uploadToServer)
       .then(() => {
-        setUser({
-          ...user,
-          bio,
-          profileName,
-          urlAvatar,
-        })
+        if (user) {
+          setUser({
+            ...user,
+            bio,
+            profileName,
+            urlAvatar,
+          })
+        }
+
         setModal("")
       })
   }

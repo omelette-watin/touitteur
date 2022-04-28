@@ -39,7 +39,7 @@ const Login = () => {
             usernameOrEmail: string().required("Required"),
             password: string().required("Required"),
           })}
-          onSubmit={async (values, { setErrors }) => {
+          onSubmit={async (values, { setErrors }: { setErrors: any }) => {
             setSubmitting(true)
             api
               .post("auth/login", values)
@@ -75,7 +75,15 @@ const Login = () => {
               })
           }}
         >
-          {({ errors, dirty, isValid }) => (
+          {({
+            errors,
+            dirty,
+            isValid,
+          }: {
+            errors: any
+            dirty: boolean
+            isValid: boolean
+          }) => (
             <Form>
               <div className="flex flex-col text-black">
                 <InputForm

@@ -92,7 +92,9 @@ const ProgressRing = ({
   )
 }
 const CharacterCounter = ({ maxChars }: { maxChars: number }) => {
-  const [plainText] = useSelector((state) => state.editor.plainText)
+  const [plainText] = useSelector(
+    (state: { editor: { plainText: any } }) => state.editor.plainText
+  )
   const { uiStatus, ...propsRingBar } = getProgressRingBarProps(
     plainText,
     maxChars

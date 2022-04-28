@@ -5,6 +5,7 @@ export interface TweetType {
   plainText: string
   authorId?: string
   author: UserType
+  type?: string
   createdAt: Date
   _count: { likes: number; retweets: number; replies: number }
   originalTweetId?: string | null

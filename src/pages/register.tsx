@@ -68,7 +68,7 @@ const Register = () => {
             password: "",
             confirmPassword: "",
           }}
-          onSubmit={async (values, { setErrors }) => {
+          onSubmit={async (values, { setErrors }: { setErrors: any }) => {
             setSubmitting(true)
             api
               .post("auth/register", values)
@@ -111,7 +111,15 @@ const Register = () => {
           }}
           validationSchema={registerSchema}
         >
-          {({ isValid, dirty, errors }) => (
+          {({
+            isValid,
+            dirty,
+            errors,
+          }: {
+            isValid: boolean
+            dirty: boolean
+            errors: any
+          }) => (
             <Form className="space-y-8 divide-y divide-gray-700">
               <div className="flex flex-col text-black">
                 <InputForm placeholder="Username" name="username" type="text" />

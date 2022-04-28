@@ -36,7 +36,11 @@ const EmojiPicker = () => {
       targetRange,
       emojiObj.emoji
     )
-    const newEditorState = EditorState.push(editorState, newContentState)
+    const newEditorState = EditorState.push(
+      editorState,
+      newContentState,
+      "insert-characters"
+    )
     setEditor((prev: any) => ({ ...prev, editorState: newEditorState }))
   }
   const refPicker = useRef<HTMLDivElement>(null)

@@ -4,6 +4,7 @@ import api from "@/api/api"
 import Image from "next/image"
 import Head from "next/head"
 import { useCallback } from "react"
+import { CommonHeaderProperties } from "@/contexts/AuthContext"
 
 const Logout = () => {
   const router = useRouter()
@@ -15,7 +16,10 @@ const Logout = () => {
       .post("/auth/logout")
       .then(() => {
         localStorage.removeItem("token")
-        delete api.defaults.headers["x-access-token"]
+        delete (
+          api.defaults.headers!
+            .common as unknown as Partial<CommonHeaderProperties>
+        )["x-access-token"]
         router.push("/login")
       })
       .catch(() => {
