@@ -2,10 +2,10 @@ import { useSelector } from "usetheform"
 import { EditorState, Modifier } from "draft-js"
 import useOnClickOutside from "@/hooks/useOnClickOutside"
 import Image from "next/image"
-import { FC, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { IEmojiPickerProps } from "emoji-picker-react"
 import Tooltip from "./ui/Tooltip"
-let Picker: JSX.IntrinsicAttributes | FC<IEmojiPickerProps>
+let Picker: React.FC<IEmojiPickerProps>
 
 if (typeof window !== "undefined") {
   import("emoji-picker-react").then((_module) => {
@@ -69,7 +69,6 @@ const EmojiPicker = () => {
           <Picker
             onEmojiClick={onEmojiClick}
             preload
-            searchPlaceholder="Search an emoji"
             pickerStyle={{
               boxShadow: "none",
             }}
