@@ -1,5 +1,4 @@
 import { ReactChild } from "react"
-import MainWrapper from "./MainWrapper"
 import Modal from "./Modal"
 import Head from "next/head"
 import Sidebar from "./Sidebar"
@@ -17,7 +16,7 @@ const Layout = ({ children, title }: LayoutProps): JSX.Element => {
       </Head>
       <main className="mx-auto flex min-h-screen max-w-[1500px]">
         <Sidebar />
-        <MainWrapper title={title}>{children}</MainWrapper>
+        {children}
       </main>
       <Modal />
     </>

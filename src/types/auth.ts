@@ -1,6 +1,8 @@
+import { UserType } from "./user"
+
 /* eslint-disable no-unused-vars */
 export interface AuthContextType {
-  user: Object | null
-  setUser: (user: Object | null) => void
+  user: UserType | null
+  setUser: (user: UserType | null) => void
   loading: boolean
 }

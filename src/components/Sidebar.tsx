@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import SidebarLink from "./SidebarLink"
-import { HomeIcon } from "@heroicons/react/solid"
+import { HomeIcon, LogoutIcon } from "@heroicons/react/solid"
 import {
   HashtagIcon,
   BellIcon,
@@ -13,8 +13,11 @@ import {
 } from "@heroicons/react/outline"
 import Button from "./ui/Button"
 import useModal from "@/hooks/useModal"
+import useAuth from "@/hooks/useAuth"
+import Tooltip from "./ui/Tooltip"
 
 const Sidebar = (): JSX.Element => {
+  const { user } = useAuth()
   const { setModal } = useModal()
   const handleOpenTweetModal = () => {
     setModal("tweet")
@@ -63,6 +66,29 @@ const Sidebar = (): JSX.Element => {
           </g>
         </svg>
       </Button>
+      <div className="hoverAnimation mt-auto flex items-center justify-center text-[#d9d9d9] xl:ml-24 xl:w-[244px] xl:justify-start">
+        <Image
+          src={user?.urlAvatar || "/avatars/default.svg"}
+          alt="Your avatar"
+          className="rounded-full"
+          width={36}
+          height={36}
+        />
+        <div className="hidden leading-5 xl:ml-3 xl:inline ">
+          <p className="truncate font-bold xl:max-w-[130px]">
+            {user?.profileName}
+          </p>
+          <p className="truncate text-[#6e767d] xl:max-w-[130px]">
+            @{user?.username}
+          </p>
+        </div>
+        <Link href="/logout">
+          <a className="group relative ml-auto hidden xl:inline">
+            <LogoutIcon className="h-5" />
+            <Tooltip>Logout</Tooltip>
+          </a>
+        </Link>
+      </div>
     </div>
   )
 }

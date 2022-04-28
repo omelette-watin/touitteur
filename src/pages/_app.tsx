@@ -7,6 +7,9 @@ import "@/styles/globals.css"
 import type { AppProps } from "next/app"
 import TimeAgo from "javascript-time-ago"
 import en from "javascript-time-ago/locale/en.json"
+import { ReplyToContextProvider } from "@/contexts/ReplyToContext"
+import { PostedTweetContextProvider } from "@/contexts/PostedTweetsContext"
+import ConnectionScreen from "@/components/NoAuthScreen"
 
 TimeAgo.setDefaultLocale(en.locale)
 TimeAgo.addLocale(en)
@@ -24,19 +27,23 @@ const AppContentWrapper = ({
   }
 
   if (!user && needAuth) {
-    return <p>Oupsi</p>
+    return <ConnectionScreen />
   }
 
-  // if (!needAuth) {
-  //   return <Component {...pageProps} {...othersProps} />
-  // }
+  if (!needAuth) {
+    return <Component {...pageProps} {...othersProps} />
+  }
 
   return (
-    <ModalContextProvider>
-      <Layout title={pageProps.title}>
-        <Component {...pageProps} {...othersProps} />
-      </Layout>
-    </ModalContextProvider>
+    <PostedTweetContextProvider>
+      <ReplyToContextProvider>
+        <ModalContextProvider>
+          <Layout title={pageProps.title}>
+            <Component {...pageProps} {...othersProps} />
+          </Layout>
+        </ModalContextProvider>
+      </ReplyToContextProvider>
+    </PostedTweetContextProvider>
   )
 }
 const App = (props: AppProps) => {

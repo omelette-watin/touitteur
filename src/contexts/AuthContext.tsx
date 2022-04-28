@@ -1,17 +1,18 @@
 import api from "@/api/api"
 import { AuthContextType } from "@/types/auth"
+import { UserType } from "@/types/user"
 import { useRouter } from "next/router"
-import { createContext, ReactNode, useState, useEffect } from "react"
+import { createContext, useState, useEffect, ReactChild } from "react"
 
-interface CommonHeaderProperties {
+export interface CommonHeaderProperties {
   "x-access-token": string | null
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null)
 
-const AuthContextProvider = ({ children }: { children: ReactNode }) => {
+const AuthContextProvider = ({ children }: { children: ReactChild }) => {
   const router = useRouter()
-  const [user, setUser] = useState<Object | null>(null)
+  const [user, setUser] = useState<UserType | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -27,7 +28,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         ).common["x-access-token"] = token
 
         try {
-          const { data } = await api.get("/user/me")
+          const { data } = await api.get("/users/me")
 
           if (data) {
             setUser(data)
