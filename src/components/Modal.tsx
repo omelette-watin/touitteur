@@ -30,7 +30,7 @@ const Modal = (): JSX.Element => {
       )}
     >
       <div
-        className="px- z-10 flex w-full max-w-[100vw] flex-col rounded-xl border-white bg-black py-1 shadow-neutral-800 sm:w-[600px] sm:border-[1px] sm:p-4 sm:shadow-lg xl:w-[700px]"
+        className="z-10 flex w-full max-w-[100vw] flex-col rounded-xl border-white bg-black py-1 shadow-neutral-800 sm:w-[600px] sm:border-[1px] sm:p-4 sm:shadow-lg xl:w-[700px]"
         ref={modalContentRef}
       >
         <button
