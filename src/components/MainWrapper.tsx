@@ -24,7 +24,7 @@ const MainWrapper = ({ children, title }: MainWrapperProps): JSX.Element => {
               <Image
                 src={user?.urlAvatar || "/avatars/default.svg"}
                 alt="Your profile"
-                className="h-[33px] w-[33px]"
+                className="h-[33px] w-[33px] rounded-full"
                 width={36}
                 height={36}
               />
