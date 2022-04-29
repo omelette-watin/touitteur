@@ -5,6 +5,8 @@ import { CameraIcon } from "@heroicons/react/outline"
 import Image from "next/image"
 import { useState } from "react"
 import { v4 as uuidv4 } from "uuid"
+import { storage } from "@/firebase/firebase"
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 
 const PROFILENAME_MAX_CHAR = 30
 const BIO_MAX_CHAR = 160
@@ -17,6 +19,7 @@ const ProfileForm = () => {
     user?.urlAvatar || "/avatars/default.svg"
   )
   const [image, setImage] = useState<any>(null)
+  const [submitting, setSubmitting] = useState(false)
   const handleChangeProfileName = (e: any) => {
     if (e.target.value.length <= PROFILENAME_MAX_CHAR) {
       setProfileName(e.target.value)
@@ -29,23 +32,53 @@ const ProfileForm = () => {
   }
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    uploadToServer().then((newImageName) => {
-      api
-        .post("/users/me", { bio, profileName, urlAvatar: newImageName })
-        .then(() => {
-          if (user) {
-            setUser({
-              ...user,
-              bio,
-              profileName,
-              urlAvatar: newImageName,
-            })
-          }
+    setSubmitting(true)
 
-          setUrlAvatar(newImageName)
-          setModal("")
-        })
-    })
+    if (image) {
+      const splittedImageName = image.name.split(".")
+      const extension = splittedImageName[splittedImageName.length - 1]
+      const newImageName = `${uuidv4()}.${extension}`
+      const imageRef = ref(storage, `/avatars/${newImageName}`)
+      const upload = uploadBytesResumable(imageRef, image)
+
+      return upload.on(
+        "state_changed",
+        () => {},
+        () => {},
+        () => {
+          getDownloadURL(upload.snapshot.ref).then((downloadURL) => {
+            api
+              .post("/users/me", { bio, profileName, urlAvatar: downloadURL })
+              .then(() => {
+                if (user) {
+                  setUser({
+                    ...user,
+                    bio,
+                    profileName,
+                    urlAvatar: downloadURL,
+                  })
+                }
+
+                setModal("")
+              })
+          })
+        }
+      )
+    } else {
+      api.post("/users/me", { bio, profileName }).then(() => {
+        if (user) {
+          setUser({
+            ...user,
+            bio,
+            profileName,
+          })
+        }
+
+        setModal("")
+      })
+    }
+
+    setSubmitting(false)
   }
   const uploadToClient = (e: any) => {
     if (e.target.files && e.target.files[0]) {
@@ -54,23 +87,6 @@ const ProfileForm = () => {
       setImage(i)
       setUrlAvatar(URL.createObjectURL(i))
     }
-  }
-  const uploadToServer = async () => {
-    if (image) {
-      const splittedImageName = image.name.split(".")
-      const extension = splittedImageName[splittedImageName.length - 1]
-      const newImageName = `${uuidv4()}.${extension}`
-      const body = new FormData()
-      body.append("file", image)
-      await fetch(`/api/fileUpload?image=${newImageName}`, {
-        method: "POST",
-        body,
-      })
-
-      return `/avatars/${newImageName}`
-    }
-
-    return urlAvatar
   }
   const handleCloseModal = () => setModal("")
 
@@ -97,7 +113,7 @@ const ProfileForm = () => {
           name="myImage"
           id="avatar"
           className="hidden"
-          accept="image/*"
+          accept=".png,.jpg,.jpeg,.gif"
           onChange={uploadToClient}
         />
 
@@ -136,10 +152,11 @@ const ProfileForm = () => {
             Cancel
           </button>
           <button
+            disabled={submitting}
             type="submit"
-            className="bg-twitter w-fit self-center rounded-full px-6 py-1 hover:bg-[#1a8cd8]"
+            className="bg-twitter disabled:bg-twitter/50 w-fit self-center rounded-full px-6 py-1 transition ease-in-out hover:bg-[#1a8cd8] disabled:cursor-default"
           >
-            Save
+            {submitting ? "Saving" : "Save"}
           </button>
         </div>
       </div>
