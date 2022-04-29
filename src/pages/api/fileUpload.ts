@@ -12,6 +12,8 @@ export const config = {
 }
 
 export default async function uploadAvatar(req: Request, res: Response) {
+  const { image } = req.query
+
   return new Promise((resolve, reject) => {
     const form = new Formidable.IncomingForm({
       multiples: true,
@@ -23,11 +25,8 @@ export default async function uploadAvatar(req: Request, res: Response) {
         "file",
         (name: string, file: { path: string | Buffer | URL; name: string }) => {
           const data = fs.readFileSync(file.path)
-          const splittedImageName = file.name.split(".")
-          const extension = splittedImageName[splittedImageName.length - 1]
-          const newImageName = `${uuidv4()}.${extension}`
 
-          fs.writeFileSync(`public/avatars/${newImageName}`, data)
+          fs.writeFileSync(`public/avatars/${image}`, data)
           fs.unlinkSync(file.path)
         }
       )

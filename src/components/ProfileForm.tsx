@@ -4,6 +4,7 @@ import useModal from "@/hooks/useModal"
 import { CameraIcon } from "@heroicons/react/outline"
 import Image from "next/image"
 import { useState } from "react"
+import { v4 as uuidv4 } from "uuid"
 
 const PROFILENAME_MAX_CHAR = 30
 const BIO_MAX_CHAR = 160
@@ -13,9 +14,9 @@ const ProfileForm = () => {
   const [profileName, setProfileName] = useState(user?.profileName)
   const [bio, setBio] = useState(user?.bio || "")
   const [urlAvatar, setUrlAvatar] = useState(
-    user?.urlAvatar || "/avatars/default.png"
+    user?.urlAvatar || "/avatars/default.svg"
   )
-  const [image, setImage] = useState(null)
+  const [image, setImage] = useState<any>(null)
   const handleChangeProfileName = (e: any) => {
     if (e.target.value.length <= PROFILENAME_MAX_CHAR) {
       setProfileName(e.target.value)
@@ -28,21 +29,23 @@ const ProfileForm = () => {
   }
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    api
-      .post("/users/me", { bio, profileName, urlAvatar })
-      .then(uploadToServer)
-      .then(() => {
-        if (user) {
-          setUser({
-            ...user,
-            bio,
-            profileName,
-            urlAvatar,
-          })
-        }
+    uploadToServer().then((newImageName) => {
+      api
+        .post("/users/me", { bio, profileName, urlAvatar: newImageName })
+        .then(() => {
+          if (user) {
+            setUser({
+              ...user,
+              bio,
+              profileName,
+              urlAvatar: newImageName,
+            })
+          }
 
-        setModal("")
-      })
+          setUrlAvatar(newImageName)
+          setModal("")
+        })
+    })
   }
   const uploadToClient = (e: any) => {
     if (e.target.files && e.target.files[0]) {
@@ -54,13 +57,20 @@ const ProfileForm = () => {
   }
   const uploadToServer = async () => {
     if (image) {
+      const splittedImageName = image.name.split(".")
+      const extension = splittedImageName[splittedImageName.length - 1]
+      const newImageName = `${uuidv4()}.${extension}`
       const body = new FormData()
       body.append("file", image)
-      await fetch("/api/fileUpload", {
+      await fetch(`/api/fileUpload?image=${newImageName}`, {
         method: "POST",
         body,
       })
+
+      return `/avatars/${newImageName}`
     }
+
+    return urlAvatar
   }
   const handleCloseModal = () => setModal("")
 
