@@ -1,9 +1,7 @@
 import { Request, Response } from "express"
 // @ts-ignore
 import Formidable from "formidable-serverless"
-import { v4 as uuidv4 } from "uuid"
 import fs from "fs"
-import { URL } from "url"
 
 export const config = {
   api: {
