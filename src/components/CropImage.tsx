@@ -51,7 +51,7 @@ const CropImage = ({
   ])
 
   return (
-    <div className="p-4 text-slate-200">
+    <div className="p-8 text-slate-200 sm:p-4">
       <p className="pb-6 text-center text-xl font-bold">Edit your avatar</p>
       <div className="relative h-[400px] w-full rounded-xl bg-gray-600">
         <Cropper
