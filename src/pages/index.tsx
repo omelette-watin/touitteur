@@ -82,9 +82,9 @@ const Home: NextPage = () => {
               })
               .reverse()}
           {!followsSomeone && (
-            <div className="flex flex-col items-center border-b border-gray-700 py-2 text-center">
-              <p>You don't follow anyone for now</p>
-              <p>Personnalize your feed by following an other account</p>
+            <div className="flex flex-col items-center border-b border-gray-700 p-4 py-2 text-center">
+              <p>You don't follow anyone yet</p>
+              <p>Here, some recommendation for you</p>
             </div>
           )}
           {loading && (
