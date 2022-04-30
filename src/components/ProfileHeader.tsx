@@ -77,7 +77,7 @@ const ProfileHeader = ({ user }: { user: UserType }) => {
               className={classNames(
                 "bg-twitter rounded-full px-5 py-1 text-white transition ease-in-out hover:bg-[#1a8cd8]",
                 {
-                  "border border-white bg-transparent hover:border-red-600 hover:bg-red-600/10 hover:text-red-600":
+                  "border border-white bg-transparent hover:border-red-600 hover:bg-transparent hover:text-red-600":
                     isFollowed,
                   "animate-pulse": following,
                 }
