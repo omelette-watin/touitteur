@@ -19,6 +19,7 @@ const CropImage = ({
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
+  const [rotation, setRotation] = useState(0)
   const onCropComplete = useCallback(
     (_croppedArea: any, croppedAreaPixels: any) => {
       setCroppedAreaPixels(croppedAreaPixels)
@@ -28,7 +29,7 @@ const CropImage = ({
   const getImage = useCallback(async () => {
     try {
       if (croppedAreaPixels) {
-        const res = await getCroppedImg(urlAvatar, croppedAreaPixels)
+        const res = await getCroppedImg(urlAvatar, croppedAreaPixels, rotation)
 
         if (res) {
           const { croppedImage, croppedUrl } = res
@@ -40,7 +41,14 @@ const CropImage = ({
     } catch (err) {
       closeCrop()
     }
-  }, [croppedAreaPixels, setCroppedImage, setCroppedUrl, urlAvatar, closeCrop])
+  }, [
+    croppedAreaPixels,
+    setCroppedImage,
+    setCroppedUrl,
+    urlAvatar,
+    closeCrop,
+    rotation,
+  ])
 
   return (
     <div className="p-4 text-slate-200">
@@ -51,9 +59,41 @@ const CropImage = ({
           crop={crop}
           zoom={zoom}
           aspect={1}
+          rotation={rotation}
           onCropChange={setCrop}
           onCropComplete={onCropComplete}
           onZoomChange={setZoom}
+        />
+      </div>
+      <div className="mt-4 flex flex-col items-center">
+        <label
+          htmlFor="rotation"
+          className="text-twitter my-2 text-lg font-bold"
+        >
+          Rotate
+        </label>
+        <input
+          id="rotation"
+          type="range"
+          value={rotation}
+          min={0}
+          max={360}
+          onChange={(e: any) => setRotation(e.target.value)}
+          className="w-[80%]"
+        />
+        <label htmlFor="zoom" className="text-twitter my-2 text-lg font-bold">
+          Zoom
+        </label>
+
+        <input
+          id="zoom"
+          type="range"
+          value={zoom}
+          min={1}
+          max={3}
+          step={0.1}
+          onChange={(e: any) => setZoom(e.target.value)}
+          className="w-[80%]"
         />
       </div>
       <div className="flex items-center justify-center space-x-4 pt-8 text-lg">
