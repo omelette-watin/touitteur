@@ -3,7 +3,8 @@ import { TweetType } from "@/types/tweet"
 import { createContext, ReactChild, useState } from "react"
 
 export const PostedTweetContext = createContext<PostedTweetsContextType | null>(
-  null
+  // eslint-disable-next-line no-unused-vars
+  { postedTweets: [], setPostedTweets(_tweet) {} }
 )
 
 export const PostedTweetContextProvider = ({

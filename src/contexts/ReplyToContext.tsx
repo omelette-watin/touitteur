@@ -2,7 +2,11 @@ import { ReplyToContextType } from "@/types/replyTo"
 import { TweetType } from "@/types/tweet"
 import { createContext, ReactChild, useState } from "react"
 
-export const ReplyToContext = createContext<ReplyToContextType | null>(null)
+export const ReplyToContext = createContext<ReplyToContextType | null>({
+  replyingTo: null,
+  // eslint-disable-next-line no-unused-vars
+  setReplyingTo(_tweet) {},
+})
 
 export const ReplyToContextProvider = ({
   children,
