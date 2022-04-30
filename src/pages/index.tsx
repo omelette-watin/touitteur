@@ -8,7 +8,6 @@ import useAuth from "@/hooks/useAuth"
 import usePostedTweets from "@/hooks/usePostedTweets"
 import { TweetEventType, TweetType } from "@/types/tweet"
 import type { GetStaticProps, NextPage } from "next"
-import Head from "next/head"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
@@ -69,9 +68,6 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Home / Touitteur</title>
-      </Head>
       <MainWrapper title={"Home"}>
         <>
           <WhatsHappeningBox />
