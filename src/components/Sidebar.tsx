@@ -22,6 +22,7 @@ const Sidebar = (): JSX.Element => {
   const handleOpenTweetModal = () => {
     setModal("tweet")
   }
+  const isActive = (pathname: string) => pathname === window.location.pathname
 
   return (
     <div className="fixed hidden h-full flex-col items-center p-2 sm:flex xl:w-[340px] xl:items-start">
@@ -36,13 +37,21 @@ const Sidebar = (): JSX.Element => {
         </a>
       </Link>
       <div className="mt-4 mb-2.5 space-y-2 xl:ml-24">
-        <SidebarLink Icon={HomeIcon}>Home</SidebarLink>
+        <SidebarLink Icon={HomeIcon} active={isActive("/")}>
+          Home
+        </SidebarLink>
         <SidebarLink Icon={HashtagIcon}>Explore</SidebarLink>
         <SidebarLink Icon={BellIcon}>Notifications</SidebarLink>
         <SidebarLink Icon={InboxIcon}>Messages</SidebarLink>
         <SidebarLink Icon={BookmarkIcon}>Bookmarks</SidebarLink>
         <SidebarLink Icon={ClipboardListIcon}>Lists</SidebarLink>
-        <SidebarLink Icon={UserIcon}>Profile</SidebarLink>
+        <SidebarLink
+          Icon={UserIcon}
+          link={`/${user?.username}`}
+          active={isActive(`/${user?.username}`)}
+        >
+          Profile
+        </SidebarLink>
         <SidebarLink Icon={DotsCircleHorizontalIcon}>More</SidebarLink>
       </div>
       <Button
