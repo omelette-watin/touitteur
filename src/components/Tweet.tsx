@@ -211,10 +211,10 @@ const Tweet = ({ element }: { element: TweetType | TweetEventType }) => {
               <Link href={`/${author.username}`}>
                 <a onClick={(e) => stopPropagation(e)}>@{author.username}</a>
               </Link>{" "}
-              · <DateTwitterStyle date={tweet.createdAt} />
+              · <DateTwitterStyle date={tweet.createdAt as Date} />
             </span>
           </div>
-          <div className="cursor-text whitespace-pre-wrap break-words text-slate-200">
+          <div className="whitespace-pre-wrap break-words text-slate-200">
             {HighlightedTweet(tweet.plainText)}
           </div>
           <div className="mt-2 flex items-center justify-between text-xs sm:pr-8 lg:text-sm">
