@@ -9,21 +9,14 @@ import { useState } from "react"
 import { DateTwitterStyle } from "./ui/Date"
 import HighlightedTweet from "./ui/HighlightedTweet"
 import Tooltip from "./ui/Tooltip"
-import {
-  AnnotationIcon,
-  CheckIcon,
-  HeartIcon,
-  ReplyIcon,
-  ShareIcon,
-} from "@heroicons/react/outline"
-import {
-  HeartIcon as HeartIconSolid,
-  ReplyIcon as ReplyIconSolid,
-} from "@heroicons/react/solid"
+import { CheckIcon, HeartIcon, ShareIcon } from "@heroicons/react/outline"
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid"
 import useAuth from "@/hooks/useAuth"
 import api from "@/api/api"
 import { useRouter } from "next/router"
 import stopPropagation from "@/utils/stopPropagation"
+import { AiOutlineRetweet } from "react-icons/ai"
+import { FaRegComment } from "react-icons/fa"
 
 const Tweet = ({ element }: { element: TweetType | TweetEventType }) => {
   const router = useRouter()
@@ -114,7 +107,7 @@ const Tweet = ({ element }: { element: TweetType | TweetEventType }) => {
           <p className="inline-flex items-center">
             {element.type === "reply" && (
               <>
-                <AnnotationIcon className="h-8 p-2" />
+                <FaRegComment size={34} className="h-8 p-2" />
                 Replying to
                 <Link href={`/${tweet.originalTweet?.author.username}`}>
                   <a
@@ -146,7 +139,7 @@ const Tweet = ({ element }: { element: TweetType | TweetEventType }) => {
             )}
             {element.type === "retweet" && (
               <>
-                <ReplyIcon className="h-8 p-2" />
+                <AiOutlineRetweet className="h-8 p-2" size={32} />
                 <Link href={`/${element.author.username}`}>
                   <a
                     onClick={(e) => {
@@ -166,7 +159,7 @@ const Tweet = ({ element }: { element: TweetType | TweetEventType }) => {
       {!element.type && tweet.originalTweet && (
         <div className="text-xs sm:mb-2 sm:text-sm">
           <p className="inline-flex items-center">
-            <AnnotationIcon className="h-8 p-2" />
+            <FaRegComment size={32} className="h-8 p-2" />
             Replying to
             <Link href={`/${tweet.originalTweet.author.username}`}>
               <a
@@ -222,7 +215,10 @@ const Tweet = ({ element }: { element: TweetType | TweetEventType }) => {
               className="hover:text-twitter group relative flex cursor-pointer items-center space-x-1 transition ease-in-out"
               onClick={handleReply}
             >
-              <AnnotationIcon className="group-hover:bg-twitter/10 h-8 rounded-full p-2 transition ease-in-out lg:h-9" />
+              <FaRegComment
+                size={32}
+                className="group-hover:bg-twitter/10 h-8 rounded-full p-2 transition ease-in-out lg:h-9"
+              />
               <span>{tweet._count.replies}</span>
               <Tooltip>Reply</Tooltip>
             </button>
@@ -237,9 +233,15 @@ const Tweet = ({ element }: { element: TweetType | TweetEventType }) => {
               disabled={retweeting}
             >
               {isRetweeted ? (
-                <ReplyIconSolid className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-green-500/10 lg:h-9" />
+                <AiOutlineRetweet
+                  size={36}
+                  className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-green-500/10 lg:h-9"
+                />
               ) : (
-                <ReplyIcon className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-green-500/10 lg:h-9" />
+                <AiOutlineRetweet
+                  size={36}
+                  className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-green-500/10 lg:h-9"
+                />
               )}
               <span>{retweetsCount}</span>
               <Tooltip>Retweet</Tooltip>
