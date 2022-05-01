@@ -68,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   return {
     props: {
       title: `#${hashtag}`,
-      hashtag: hashtag,
+      hashtag,
       needAuth: true,
     },
   }
