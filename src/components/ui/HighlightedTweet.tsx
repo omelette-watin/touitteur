@@ -17,7 +17,7 @@ const HighlightedTweet = (str: string) => {
   const isHashtagOrMention = (str: string) => isMention(str) || isHashtag(str)
 
   return (
-    <span>
+    <span className="cursor-text">
       {parts.map((part, i) => {
         return (
           <span
