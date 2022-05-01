@@ -16,11 +16,17 @@ import usePostedTweets from "@/hooks/usePostedTweets"
 import { UserType } from "@/types/user"
 
 const MAX_CHARS_ALLOWED = 140
-const TweetForm = ({ replying }: { replying: TweetType | null }) => {
+const TweetForm = ({
+  replying,
+  openFull = false,
+}: {
+  replying: TweetType | null
+  openFull?: boolean
+}) => {
   const { user } = useAuth()
   const { postedTweets, setPostedTweets } = usePostedTweets()
   const { modal, setModal } = useModal()
-  const [clicked, setClicked] = useState(false)
+  const [clicked, setClicked] = useState(openFull)
   const [submitting, setSubmitting] = useState(false)
   const refEditor = useRef<EditorActionHandle>(null)
   const onSubmit = async (state: { editor: { plainText: string } }) => {
@@ -62,8 +68,8 @@ const TweetForm = ({ replying }: { replying: TweetType | null }) => {
               retweets: 0,
             },
             author: user as UserType,
-            orginalTweet: {
-              tweetId: replying.id,
+            originalTweet: {
+              id: replying.id,
               author: {
                 username: replying.author.username,
               },
@@ -80,11 +86,11 @@ const TweetForm = ({ replying }: { replying: TweetType | null }) => {
   }
   useEffect(() => {
     if (refEditor.current) {
-      if (modal) {
+      if (modal || openFull) {
         refEditor.current.focus()
       }
     }
-  }, [modal])
+  }, [modal, openFull])
 
   return (
     <Form
@@ -131,7 +137,7 @@ const TweetForm = ({ replying }: { replying: TweetType | null }) => {
         </div>
         <div className="flex items-center space-x-3">
           <CharacterCounter maxChars={MAX_CHARS_ALLOWED} />
-          <SubmitButton submitting={submitting} />
+          <SubmitButton submitting={submitting} replying={!!replying} />
         </div>
       </div>
     </Form>
