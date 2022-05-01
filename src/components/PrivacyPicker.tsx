@@ -55,10 +55,10 @@ const PrivacyPicker = () => {
     e.stopPropagation()
     setVisibility(false)
   }
-  const openPicker = (e: { stopPropagation: () => void }) => {
-    e.stopPropagation()
-    setVisibility(true)
-  }
+  // const openPicker = (e: { stopPropagation: () => void }) => {
+  //   e.stopPropagation()
+  //   setVisibility(true)
+  // }
   const refPicker = useRef<HTMLDivElement>(null)
   useOnClickOutside(refPicker, closePicker)
 
@@ -73,7 +73,7 @@ const PrivacyPicker = () => {
       <button
         type="button"
         className="text-twitter hover:bg-twitter/10 flex items-center space-x-2 rounded-full py-1 pl-2 pr-3 text-sm"
-        onClick={openPicker}
+        // onClick={openPicker}
       >
         <Image
           alt={bntLabel}
