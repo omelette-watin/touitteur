@@ -32,7 +32,7 @@ const MinimalTweet = ({ tweet }: { tweet: TweetType }) => {
               <Link href={`/${author.username}`}>
                 <a>@{author.username}</a>
               </Link>{" "}
-              · <DateTwitterStyle date={tweet.createdAt} />
+              · <DateTwitterStyle date={tweet.createdAt as Date} />
             </span>
           </div>
           <div className="whitespace-pre-wrap break-words text-slate-200">
