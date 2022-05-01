@@ -62,12 +62,12 @@ const TweetPage = ({ tweet }: { tweet: TweetType }) => {
 
   return (
     <MainWrapper title="Tweet">
-      <>
+      <div className="relative">
         {tweet.originalTweetId && hasMoreOriginals && (
-          <div className="mt-2- -mb-3 flex w-full justify-center">
+          <div className="absolute right-5 top-4 flex justify-center">
             <button
               onClick={loadOriginalTweet}
-              className="rounded-full bg-gray-600/50 px-4 py-1 text-xs underline-offset-2 transition ease-in-out hover:bg-gray-800/80 sm:text-sm lg:text-base"
+              className="rounded-full bg-gray-700 px-4 py-1 text-xs text-slate-200 underline-offset-2 opacity-80 transition ease-in-out hover:bg-gray-800/80 sm:text-sm lg:text-base"
             >
               Show previous tweet
             </button>
@@ -103,7 +103,7 @@ const TweetPage = ({ tweet }: { tweet: TweetType }) => {
             tweets={tweets}
           />
         )}
-      </>
+      </div>
     </MainWrapper>
   )
 }
