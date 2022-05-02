@@ -28,7 +28,7 @@ const HighlightedTweet = (str: string) => {
           >
             {isHashtagOrMention(part) ? (
               <Link
-                href={`${isHashtag(part) ? "/hashtag" : "/"}/${part.substring(
+                href={`${isHashtag(part) ? "/hashtag" : ""}/${part.substring(
                   1
                 )}`}
               >
