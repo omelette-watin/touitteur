@@ -119,7 +119,7 @@ const Login = () => {
                 >
                   {submitting ? (
                     <span>
-                      Sending ... <Loading color="slate-200" small />
+                      Sending ... <Loading color="white" small />
                     </span>
                   ) : (
                     "Sign-in"
