@@ -10,7 +10,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import CropImage from "./CropImage"
 import Tooltip from "./ui/Tooltip"
 
-const PROFILENAME_MAX_CHAR = 30
+const PROFILENAME_MAX_CHAR = 20
 const BIO_MAX_CHAR = 160
 const ProfileForm = () => {
   const { setModal } = useModal()
