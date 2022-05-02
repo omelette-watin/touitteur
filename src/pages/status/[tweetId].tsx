@@ -7,10 +7,12 @@ import Loading from "@/components/ui/Loading"
 import usePostedTweets from "@/hooks/usePostedTweets"
 import { TweetType } from "@/types/tweet"
 import { GetServerSideProps } from "next"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
 const TweetPage = ({ tweet }: { tweet: TweetType }) => {
-  const { postedTweets } = usePostedTweets()
+  const router = useRouter()
+  const { postedTweets, setPostedTweets } = usePostedTweets()
   const [loading, setLoading] = useState(true)
   const [tweets, setTweets] = useState<TweetType[] | []>([])
   const [originalTweets, setOriginalTweets] = useState<TweetType[] | []>([])
@@ -59,6 +61,10 @@ const TweetPage = ({ tweet }: { tweet: TweetType }) => {
       setLoading(true)
     }
   }, [tweet])
+
+  useEffect(() => {
+    setPostedTweets([])
+  }, [router, setPostedTweets])
 
   return (
     <MainWrapper title="Tweet">
