@@ -28,15 +28,15 @@ const HighlightedTweet = (str: string) => {
           >
             {isHashtagOrMention(part) ? (
               <Link
-                href={`${
-                  isHashtag(part) ? "/hashtag" : "/user"
-                }/${part.substring(1)}`}
+                href={`${isHashtag(part) ? "/hashtag" : "/"}/${part.substring(
+                  1
+                )}`}
               >
                 <a
                   onClick={(e) => {
                     stopPropagation(e)
                   }}
-                  className="underline-offset-1 hover:underline"
+                  className="underline-offset-2 hover:underline"
                 >
                   {part}
                 </a>
