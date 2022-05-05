@@ -15,6 +15,7 @@ const ProfileHeader = ({ user }: { user: UserType }) => {
   const isFollowed = currentUser?.following.includes(user.id)
   const isCurrentUserProfile = currentUser?.id === user.id
   const [following, setFollowing] = useState(false)
+  const [follwingText, setFollowingText] = useState("Following")
   const { modal, setModal } = useModal()
   const handleFollow = () => {
     setFollowing(true)
@@ -83,9 +84,11 @@ const ProfileHeader = ({ user }: { user: UserType }) => {
                 }
               )}
               onClick={handleFollow}
+              onMouseEnter={() => setFollowingText("Unfollow")}
+              onMouseLeave={() => setFollowingText("Following")}
               disabled={following}
             >
-              {isFollowed ? "Unfollow" : "Follow"}
+              {!isFollowed ? "Follow" : follwingText}
             </button>
           )}
         </div>
