@@ -2,6 +2,8 @@ import { ReactChild } from "react"
 import Modal from "./Modal"
 import Head from "next/head"
 import Sidebar from "./Sidebar"
+import Widgets from "./Widgets"
+import MobileBar from "./MobileBar"
 
 interface LayoutProps {
   children: ReactChild
@@ -16,7 +18,9 @@ const Layout = ({ children, title }: LayoutProps): JSX.Element => {
       </Head>
       <main className="mx-auto flex min-h-screen max-w-[1500px]">
         <Sidebar />
+        <MobileBar />
         {children}
+        <Widgets />
       </main>
       <Modal />
     </>
