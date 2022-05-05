@@ -5,17 +5,8 @@ import useReplyTo from "@/hooks/useReplyTo"
 import { TweetType } from "@/types/tweet"
 import { useState } from "react"
 import Tooltip from "./ui/Tooltip"
-import {
-  AnnotationIcon,
-  CheckIcon,
-  HeartIcon,
-  ReplyIcon,
-  ShareIcon,
-} from "@heroicons/react/outline"
-import {
-  HeartIcon as HeartIconSolid,
-  ReplyIcon as ReplyIconSolid,
-} from "@heroicons/react/solid"
+import { CheckIcon, HeartIcon, ShareIcon } from "@heroicons/react/outline"
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid"
 import Image from "next/image"
 import Link from "next/link"
 import stopPropagation from "@/utils/stopPropagation"
@@ -24,6 +15,8 @@ import HighlightedTweet from "./ui/HighlightedTweet"
 import { DateClassic } from "./ui/Date"
 import classNames from "classnames"
 import TweetBox from "./TweetBox"
+import { AiOutlineRetweet } from "react-icons/ai"
+import { FaRegComment } from "react-icons/fa"
 
 const MainTweet = ({ tweet }: { tweet: TweetType }) => {
   const { user, setUser } = useAuth()
@@ -176,7 +169,10 @@ const MainTweet = ({ tweet }: { tweet: TweetType }) => {
             className="hover:text-twitter group relative flex cursor-pointer items-center space-x-1 transition ease-in-out"
             onClick={handleReply}
           >
-            <AnnotationIcon className="group-hover:bg-twitter/10 h-8 rounded-full p-2 transition ease-in-out lg:h-10" />
+            <FaRegComment
+              size={36}
+              className="group-hover:bg-twitter/10 h-8 rounded-full p-2 transition ease-in-out lg:h-10"
+            />
             <Tooltip>Reply</Tooltip>
           </div>
           <button
@@ -190,9 +186,15 @@ const MainTweet = ({ tweet }: { tweet: TweetType }) => {
             disabled={retweeting}
           >
             {isRetweeted ? (
-              <ReplyIconSolid className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-green-500/10 lg:h-10" />
+              <AiOutlineRetweet
+                size={38}
+                className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-green-500/10 lg:h-10"
+              />
             ) : (
-              <ReplyIcon className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-green-500/10 lg:h-10" />
+              <AiOutlineRetweet
+                size={38}
+                className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-green-500/10 lg:h-10"
+              />
             )}
             <Tooltip>Retweet</Tooltip>
           </button>
