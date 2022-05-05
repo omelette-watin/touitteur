@@ -13,11 +13,13 @@ import { CheckIcon, HeartIcon, ShareIcon } from "@heroicons/react/outline"
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid"
 import useAuth from "@/hooks/useAuth"
 import api from "@/api/api"
+import { useRouter } from "next/router"
 import stopPropagation from "@/utils/stopPropagation"
 import { AiOutlineRetweet } from "react-icons/ai"
 import { FaRegComment } from "react-icons/fa"
 
 const Tweet = ({ element }: { element: TweetType | TweetEventType }) => {
+  const router = useRouter()
   const tweet: TweetType = (element as TweetEventType).targetTweet || element
   const author: UserType = tweet.author
   const { user, setUser } = useAuth()
@@ -89,193 +91,199 @@ const Tweet = ({ element }: { element: TweetType | TweetEventType }) => {
     setCopied(true)
     setTimeout(() => setCopied(false), 2500)
   }
+  const handleClickOnTweet = () => {
+    if (!window.getSelection()?.toString()) {
+      router.push(`/status/${tweet.id}`)
+    }
+  }
 
   return (
-    <Link href={`/status/${tweet.id}`}>
-      <a className="flex cursor-pointer flex-col border-b border-gray-700 p-3 transition-colors ease-in-out hover:bg-neutral-900/50 sm:text-base xl:text-lg">
-        {element.type && element.type !== "tweet" && (
-          <div className="text-xs sm:mb-2 sm:text-sm">
-            <p className="inline-flex items-center">
-              {element.type === "reply" && (
-                <>
-                  <FaRegComment size={34} className="h-8 p-2" />
-                  Replying to
-                  <Link href={`/${tweet.originalTweet?.author.username}`}>
-                    <a
-                      onClick={(e) => {
-                        stopPropagation(e)
-                      }}
-                      className="text-twitter ml-1 underline-offset-1 hover:underline"
-                    >
-                      @{tweet.originalTweet?.author.username}
-                    </a>
-                  </Link>
-                </>
-              )}
-              {element.type === "like" && (
-                <>
-                  <HeartIconSolid className="h-8 p-2" />
-                  <Link href={`/${element.author.username}`}>
-                    <a
-                      onClick={(e) => {
-                        stopPropagation(e)
-                      }}
-                      className="text-twitter mr-1 underline-offset-1 hover:underline"
-                    >
-                      @{element.author.username}
-                    </a>
-                  </Link>
-                  liked this
-                </>
-              )}
-              {element.type === "retweet" && (
-                <>
-                  <AiOutlineRetweet className="h-8 p-2" size={32} />
-                  <Link href={`/${element.author.username}`}>
-                    <a
-                      onClick={(e) => {
-                        stopPropagation(e)
-                      }}
-                      className="text-twitter mr-1 underline-offset-1 hover:underline"
-                    >
-                      @{element.author.username}
-                    </a>
-                  </Link>{" "}
-                  retweeted this
-                </>
-              )}
-            </p>
-          </div>
-        )}
-        {!element.type && tweet.originalTweet && (
-          <div className="text-xs sm:mb-2 sm:text-sm">
-            <p className="inline-flex items-center">
-              <FaRegComment size={32} className="h-8 p-2" />
-              Replying to
-              <Link href={`/${tweet.originalTweet.author.username}`}>
-                <a
-                  onClick={(e) => {
-                    stopPropagation(e)
-                  }}
-                  className="text-twitter ml-1 underline-offset-1 hover:underline"
-                >
-                  @{tweet.originalTweet.author.username}
-                </a>
-              </Link>
-            </p>
-          </div>
-        )}
-        <div className="flex w-full items-start">
-          <div className="flex-shrink-0">
-            <Link href={`/${author.username}`}>
-              <a onClick={(e) => stopPropagation(e)}>
-                <Image
-                  src={tweet.author.urlAvatar || "/avatars/default.svg"}
-                  alt="Your avatar"
-                  className="rounded-full"
-                  width={48}
-                  height={48}
-                />
-              </a>
-            </Link>
-          </div>
-          <div className="flex max-w-[80%] flex-grow flex-col pl-3 sm:max-w-[90%]">
-            <div className="space-x-2">
-              <span>
-                <Link href={`/${author.username}`}>
+    <div
+      className="flex cursor-pointer flex-col border-b border-gray-700 p-3 transition-colors ease-in-out hover:bg-neutral-900/50 sm:text-base xl:text-lg"
+      onClick={handleClickOnTweet}
+    >
+      {element.type && element.type !== "tweet" && (
+        <div className="text-xs sm:mb-2 sm:text-sm">
+          <p className="inline-flex items-center">
+            {element.type === "reply" && (
+              <>
+                <FaRegComment size={34} className="h-8 p-2" />
+                Replying to
+                <Link href={`/${tweet.originalTweet?.author.username}`}>
                   <a
-                    className="font-extrabold text-slate-200 underline-offset-2 hover:underline"
-                    onClick={(e) => stopPropagation(e)}
+                    onClick={(e) => {
+                      stopPropagation(e)
+                    }}
+                    className="text-twitter ml-1 underline-offset-1 hover:underline"
                   >
-                    {author.profileName || author.username}
+                    @{tweet.originalTweet?.author.username}
                   </a>
                 </Link>
-              </span>
-              <span>
-                <Link href={`/${author.username}`}>
-                  <a onClick={(e) => stopPropagation(e)}>@{author.username}</a>
+              </>
+            )}
+            {element.type === "like" && (
+              <>
+                <HeartIconSolid className="h-8 p-2" />
+                <Link href={`/${element.author.username}`}>
+                  <a
+                    onClick={(e) => {
+                      stopPropagation(e)
+                    }}
+                    className="text-twitter mr-1 underline-offset-1 hover:underline"
+                  >
+                    @{element.author.username}
+                  </a>
+                </Link>
+                liked this
+              </>
+            )}
+            {element.type === "retweet" && (
+              <>
+                <AiOutlineRetweet className="h-8 p-2" size={32} />
+                <Link href={`/${element.author.username}`}>
+                  <a
+                    onClick={(e) => {
+                      stopPropagation(e)
+                    }}
+                    className="text-twitter mr-1 underline-offset-1 hover:underline"
+                  >
+                    @{element.author.username}
+                  </a>
                 </Link>{" "}
-                · <DateTwitterStyle date={tweet.createdAt as Date} />
-              </span>
-            </div>
-            <div className="whitespace-pre-wrap break-words text-slate-200">
-              {HighlightedTweet(tweet.plainText)}
-            </div>
-            <div className="mt-2 flex items-center justify-between text-xs sm:pr-8 lg:text-sm">
-              <button
-                className="hover:text-twitter group relative flex cursor-pointer items-center space-x-1 transition ease-in-out"
-                onClick={handleReply}
+                retweeted this
+              </>
+            )}
+          </p>
+        </div>
+      )}
+      {!element.type && tweet.originalTweet && (
+        <div className="text-xs sm:mb-2 sm:text-sm">
+          <p className="inline-flex items-center">
+            <FaRegComment size={32} className="h-8 p-2" />
+            Replying to
+            <Link href={`/${tweet.originalTweet.author.username}`}>
+              <a
+                onClick={(e) => {
+                  stopPropagation(e)
+                }}
+                className="text-twitter ml-1 underline-offset-1 hover:underline"
               >
-                <FaRegComment
-                  size={32}
-                  className="group-hover:bg-twitter/10 h-8 rounded-full p-2 transition ease-in-out lg:h-9"
+                @{tweet.originalTweet.author.username}
+              </a>
+            </Link>
+          </p>
+        </div>
+      )}
+      <div className="flex w-full items-start">
+        <div className="flex-shrink-0">
+          <Link href={`/${author.username}`}>
+            <a onClick={(e) => stopPropagation(e)}>
+              <Image
+                src={tweet.author.urlAvatar || "/avatars/default.svg"}
+                alt="Your avatar"
+                className="rounded-full"
+                width={48}
+                height={48}
+              />
+            </a>
+          </Link>
+        </div>
+        <div className="flex max-w-[80%] flex-grow flex-col pl-3 sm:max-w-[90%]">
+          <div className="space-x-2">
+            <span>
+              <Link href={`/${author.username}`}>
+                <a
+                  className="font-extrabold text-slate-200 underline-offset-2 hover:underline"
+                  onClick={(e) => stopPropagation(e)}
+                >
+                  {author.profileName || author.username}
+                </a>
+              </Link>
+            </span>
+            <span>
+              <Link href={`/${author.username}`}>
+                <a onClick={(e) => stopPropagation(e)}>@{author.username}</a>
+              </Link>{" "}
+              · <DateTwitterStyle date={tweet.createdAt as Date} />
+            </span>
+          </div>
+          <div className="whitespace-pre-wrap break-words text-slate-200">
+            {HighlightedTweet(tweet.plainText)}
+          </div>
+          <div className="mt-2 flex items-center justify-between text-xs sm:pr-8 lg:text-sm">
+            <button
+              className="hover:text-twitter group relative flex cursor-pointer items-center space-x-1 transition ease-in-out"
+              onClick={handleReply}
+            >
+              <FaRegComment
+                size={32}
+                className="group-hover:bg-twitter/10 h-8 rounded-full p-2 transition ease-in-out lg:h-9"
+              />
+              <span>{tweet._count.replies}</span>
+              <Tooltip>Reply</Tooltip>
+            </button>
+            <button
+              className={classNames(
+                "group relative flex cursor-pointer items-center space-x-1 transition ease-in-out hover:text-green-500",
+                {
+                  "text-green-500": isRetweeted,
+                }
+              )}
+              onClick={handleRetweet}
+              disabled={retweeting}
+            >
+              {isRetweeted ? (
+                <AiOutlineRetweet
+                  size={36}
+                  className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-green-500/10 lg:h-9"
                 />
-                <span>{tweet._count.replies}</span>
-                <Tooltip>Reply</Tooltip>
-              </button>
-              <button
-                className={classNames(
-                  "group relative flex cursor-pointer items-center space-x-1 transition ease-in-out hover:text-green-500",
-                  {
-                    "text-green-500": isRetweeted,
-                  }
-                )}
-                onClick={handleRetweet}
-                disabled={retweeting}
-              >
-                {isRetweeted ? (
-                  <AiOutlineRetweet
-                    size={36}
-                    className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-green-500/10 lg:h-9"
-                  />
-                ) : (
-                  <AiOutlineRetweet
-                    size={36}
-                    className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-green-500/10 lg:h-9"
-                  />
-                )}
-                <span>{retweetsCount}</span>
-                <Tooltip>Retweet</Tooltip>
-              </button>
-              <button
-                className={classNames(
-                  "group relative flex cursor-pointer items-center space-x-1 transition ease-in-out hover:text-red-500",
-                  {
-                    "text-red-500": isLiked,
-                  }
-                )}
-                onClick={handleLike}
-                disabled={liking}
-              >
-                {isLiked ? (
-                  <HeartIconSolid className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-red-500/10 lg:h-9" />
-                ) : (
-                  <HeartIcon className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-red-500/10 lg:h-9" />
-                )}
-                <span>{likesCount}</span>
-                <Tooltip>Like</Tooltip>
-              </button>
-              <button
-                className="hover:text-twitter group relative flex cursor-pointer items-center space-x-1 transition ease-in-out"
-                onClick={handleCopyLink}
-              >
-                {copied ? (
-                  <>
-                    <CheckIcon className="bg-twitter/10 text-twitter h-8 rounded-full p-2 transition ease-in-out lg:h-9" />
-                    <Tooltip>Copied !</Tooltip>
-                  </>
-                ) : (
-                  <>
-                    <ShareIcon className="group-hover:bg-twitter/10 h-8 rounded-full p-2 transition ease-in-out lg:h-9" />
-                    <Tooltip>Copy link</Tooltip>
-                  </>
-                )}
-              </button>
-            </div>
+              ) : (
+                <AiOutlineRetweet
+                  size={36}
+                  className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-green-500/10 lg:h-9"
+                />
+              )}
+              <span>{retweetsCount}</span>
+              <Tooltip>Retweet</Tooltip>
+            </button>
+            <button
+              className={classNames(
+                "group relative flex cursor-pointer items-center space-x-1 transition ease-in-out hover:text-red-500",
+                {
+                  "text-red-500": isLiked,
+                }
+              )}
+              onClick={handleLike}
+              disabled={liking}
+            >
+              {isLiked ? (
+                <HeartIconSolid className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-red-500/10 lg:h-9" />
+              ) : (
+                <HeartIcon className="h-8 rounded-full p-2 transition ease-in-out group-hover:bg-red-500/10 lg:h-9" />
+              )}
+              <span>{likesCount}</span>
+              <Tooltip>Like</Tooltip>
+            </button>
+            <button
+              className="hover:text-twitter group relative flex cursor-pointer items-center space-x-1 transition ease-in-out"
+              onClick={handleCopyLink}
+            >
+              {copied ? (
+                <>
+                  <CheckIcon className="bg-twitter/10 text-twitter h-8 rounded-full p-2 transition ease-in-out lg:h-9" />
+                  <Tooltip>Copied !</Tooltip>
+                </>
+              ) : (
+                <>
+                  <ShareIcon className="group-hover:bg-twitter/10 h-8 rounded-full p-2 transition ease-in-out lg:h-9" />
+                  <Tooltip>Copy link</Tooltip>
+                </>
+              )}
+            </button>
           </div>
         </div>
-      </a>
-    </Link>
+      </div>
+    </div>
   )
 }
 
