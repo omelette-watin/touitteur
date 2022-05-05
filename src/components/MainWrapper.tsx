@@ -17,7 +17,7 @@ const MainWrapper = ({ children, title }: MainWrapperProps): JSX.Element => {
   const handleBack = useCallback(() => router.back(), [router])
 
   return (
-    <div className="max-w-[100vw] flex-grow border-gray-700 sm:ml-[73px] sm:max-w-[40rem] sm:border-l sm:border-r xl:ml-[370px]">
+    <div className="min-h-[110vh] max-w-[100vw] flex-grow border-gray-700 sm:ml-[73px] sm:max-w-[40rem] sm:border-l sm:border-r xl:ml-[370px]">
       <div className="sticky top-0 z-20 flex items-center border-b border-gray-700 bg-black px-3 pb-1 pt-3 text-slate-200 sm:justify-between">
         <div className="flex items-center">
           {isHomePage ? (
