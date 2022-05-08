@@ -120,7 +120,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   return {
     props: {
-      title: `${tweet.author.profileName} on Touitteur: ${tweet.plainText}`,
+      title: `${
+        tweet.author.profileName || tweet.author.username
+      } on Touitteur: ${tweet.plainText}`,
       tweet,
       needAuth: true,
     },
