@@ -10,9 +10,18 @@ import en from "javascript-time-ago/locale/en.json"
 import { ReplyToContextProvider } from "@/contexts/ReplyToContext"
 import { PostedTweetContextProvider } from "@/contexts/PostedTweetsContext"
 import ConnectionScreen from "@/components/NoAuthScreen"
+import NProgress from "nprogress"
+import { useEffect } from "react"
+import Router from "next/router"
 
 TimeAgo.setDefaultLocale(en.locale)
 TimeAgo.addLocale(en)
+
+NProgress.configure({
+  showSpinner: false,
+  easing: "ease",
+  speed: 500,
+})
 
 const AppContentWrapper = ({
   Component,
@@ -47,6 +56,12 @@ const AppContentWrapper = ({
   )
 }
 const App = (props: AppProps) => {
+  useEffect(() => {
+    Router.events.on("routeChangeStart", () => NProgress.start())
+    Router.events.on("routeChangeComplete", () => NProgress.done())
+    Router.events.on("routeChangeError", () => NProgress.done())
+  }, [])
+
   return (
     <AuthContextProvider>
       <AppContentWrapper {...props} />
