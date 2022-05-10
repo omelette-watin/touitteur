@@ -67,7 +67,7 @@ const ProfileHeader = ({ user }: { user: UserType }) => {
           </div>
           {isCurrentUserProfile ? (
             <button
-              className="rounded-full border border-white bg-white bg-transparent px-5 py-1 text-white transition ease-in-out hover:bg-gray-500/20"
+              className="rounded-full border border-white bg-transparent px-5 py-1 text-white transition ease-in-out hover:bg-gray-500/20"
               onClick={handleEdit}
               disabled={!!modal}
             >
