@@ -40,7 +40,13 @@ const Sidebar = (): JSX.Element => {
         <SidebarLink Icon={HomeIcon} active={isActive("/")}>
           Home
         </SidebarLink>
-        <SidebarLink Icon={HashtagIcon}>Explore</SidebarLink>
+        <SidebarLink
+          Icon={HashtagIcon}
+          link="/explore"
+          active={isActive("/explore")}
+        >
+          Explore
+        </SidebarLink>
         <SidebarLink Icon={BellIcon}>Notifications</SidebarLink>
         <SidebarLink Icon={InboxIcon}>Messages</SidebarLink>
         <SidebarLink Icon={BookmarkIcon}>Bookmarks</SidebarLink>
