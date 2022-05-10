@@ -3,9 +3,11 @@ import SidebarLink from "./SidebarLink"
 import { HomeIcon } from "@heroicons/react/solid"
 import { LogoutIcon, SearchIcon, UserIcon } from "@heroicons/react/outline"
 import useModal from "@/hooks/useModal"
+import useAuth from "@/hooks/useAuth"
 
 const MobileBar = () => {
   const { modal, setModal } = useModal()
+  const { user } = useAuth()
   const handleOpenTweetModal = () => setModal("tweet")
 
   return (
@@ -13,9 +15,15 @@ const MobileBar = () => {
       <SidebarLink Icon={HomeIcon} link="/">
         Home
       </SidebarLink>
-      <SidebarLink Icon={SearchIcon}>Explore</SidebarLink>
-      <SidebarLink Icon={UserIcon}>Profile</SidebarLink>
-      <SidebarLink Icon={LogoutIcon}>Disconnect</SidebarLink>
+      <SidebarLink Icon={SearchIcon} link="/explore">
+        Explore
+      </SidebarLink>
+      <SidebarLink Icon={UserIcon} link={`/${user?.username}`}>
+        Profile
+      </SidebarLink>
+      <SidebarLink Icon={LogoutIcon} link={"logout"}>
+        Disconnect
+      </SidebarLink>
       {!modal && (
         <button
           className="bg-twitter absolute -top-[80px] right-5 flex items-center justify-center rounded-full p-3 text-lg font-bold text-white shadow-md hover:bg-[#1a8cd8]"
