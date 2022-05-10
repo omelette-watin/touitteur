@@ -3,7 +3,7 @@ import useAuth from "@/hooks/useAuth"
 import useModal from "@/hooks/useModal"
 import useReplyTo from "@/hooks/useReplyTo"
 import { TweetType } from "@/types/tweet"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Tooltip from "./ui/Tooltip"
 import { CheckIcon, HeartIcon, ShareIcon } from "@heroicons/react/outline"
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid"
@@ -91,6 +91,10 @@ const MainTweet = ({ tweet }: { tweet: TweetType }) => {
     setCopied(true)
     setTimeout(() => setCopied(false), 2500)
   }
+
+  useEffect(() => {
+    return () => setReplyClicked(false)
+  }, [tweet])
 
   return (
     <div className="flex w-full flex-col border-b border-gray-700 pb-2 text-sm transition ease-in-out sm:text-base xl:text-lg">
