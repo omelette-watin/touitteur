@@ -67,38 +67,36 @@ const Home: NextPage = () => {
   }, [router, setPostedTweets])
 
   return (
-    <>
-      <MainWrapper title={"Home"}>
-        <>
-          <WhatsHappeningBox />
-          {postedTweets?.length > 0 &&
-            postedTweets
-              .map((tweet) => {
-                return <Tweet element={tweet} key={tweet.id} />
-              })
-              .reverse()}
-          {!followsSomeone && (
-            <div className="flex flex-col items-center border-b border-gray-700 p-4 py-2 text-center">
-              <p>You don't follow anyone yet</p>
-              <p>Here, some recommendation for you</p>
-            </div>
-          )}
-          {loading && (
-            <div className="my-8 flex w-full justify-center">
-              <Loading color="#00AAEC" />
-            </div>
-          )}
-          {tweets.length === 0 && !loading && (
-            <div className="mt-8 flex w-full justify-center text-xs text-gray-400 sm:text-base">
-              No results ...
-            </div>
-          )}
-          {tweets.length > 0 && (
-            <Scroller tweets={tweets} loadMore={loadMore} hasMore={hasMore} />
-          )}
-        </>
-      </MainWrapper>
-    </>
+    <MainWrapper title={"Home"}>
+      <>
+        <WhatsHappeningBox />
+        {postedTweets?.length > 0 &&
+          postedTweets
+            .map((tweet) => {
+              return <Tweet element={tweet} key={tweet.id} />
+            })
+            .reverse()}
+        {!followsSomeone && (
+          <div className="flex flex-col items-center border-b border-gray-700 p-4 py-2 text-center">
+            <p>You don't follow anyone yet</p>
+            <p>Here, some recommendation for you</p>
+          </div>
+        )}
+        {loading && (
+          <div className="my-8 flex w-full justify-center">
+            <Loading color="#00AAEC" />
+          </div>
+        )}
+        {tweets.length === 0 && !loading && (
+          <div className="mt-8 flex w-full justify-center text-xs text-gray-400 sm:text-base">
+            No results ...
+          </div>
+        )}
+        {tweets.length > 0 && (
+          <Scroller tweets={tweets} loadMore={loadMore} hasMore={hasMore} />
+        )}
+      </>
+    </MainWrapper>
   )
 }
 
