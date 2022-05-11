@@ -109,13 +109,15 @@ const FollowSuggestions = ({ take = 3 }: { take?: number }) => {
       <h1 className="mb-2 px-4 text-xl font-extrabold text-slate-200">
         Who to follow
       </h1>
-      <div className="text-center">
-        {loadingFollowSuggestions && <Loading color="#1d9bf0" />}
+      <div className="flex min-h-[200px] flex-col justify-center">
+        <div className="text-center">
+          {loadingFollowSuggestions && <Loading color="#1d9bf0" />}
+        </div>
+        {followSuggestions.length > 0 &&
+          followSuggestions.map((user: UserType) => {
+            return <Suggestion user={user} key={user.id} />
+          })}
       </div>
-      {followSuggestions.length > 0 &&
-        followSuggestions.map((user: UserType) => {
-          return <Suggestion user={user} key={user.id} />
-        })}
     </div>
   )
 }
