@@ -28,8 +28,8 @@ const MainWrapper = ({ children, title }: MainWrapperProps): JSX.Element => {
                     src={user?.urlAvatar || "/avatars/default.svg"}
                     alt="Your profile"
                     className="rounded-full"
-                    width={48}
-                    height={48}
+                    width={30}
+                    height={30}
                   />
                 </a>
               </Link>
