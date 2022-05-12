@@ -26,7 +26,7 @@ const SidebarLink = ({
             }
           )}
         >
-          <Icon className="h-7" />
+          <Icon className="h-5 sm:h-7" />
           <span className="hidden xl:inline">{children}</span>
         </div>
       </a>
