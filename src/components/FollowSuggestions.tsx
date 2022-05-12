@@ -105,11 +105,19 @@ const FollowSuggestions = ({ take = 3 }: { take?: number }) => {
   }, [router, take])
 
   return (
-    <div className="flex flex-col py-3">
+    <div
+      className={classNames("flex flex-col py-3", {
+        hidden: !loadingFollowSuggestions && followSuggestions.length === 0,
+      })}
+    >
       <h1 className="mb-2 px-4 text-xl font-extrabold text-slate-200">
         Who to follow
       </h1>
-      <div className="flex min-h-[200px] flex-col justify-center">
+      <div
+        className={classNames("flex flex-col", {
+          "min-h-[200px] justify-center": loadingFollowSuggestions,
+        })}
+      >
         <div className="text-center">
           {loadingFollowSuggestions && <Loading color="#1d9bf0" />}
         </div>
