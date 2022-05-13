@@ -38,7 +38,7 @@ const MainWrapper = ({ children, title }: MainWrapperProps): JSX.Element => {
             </div>
           ) : (
             <ArrowLeftIcon
-              className="mr-4 h-5 text-white"
+              className="mr-4 h-5 cursor-pointer text-white"
               onClick={handleBack}
             />
           )}
@@ -47,7 +47,7 @@ const MainWrapper = ({ children, title }: MainWrapperProps): JSX.Element => {
           )}
         </div>
         {isSearchPage && <SearchBar />}
-        <div className="hoverAnimation ml-auto flex h-9 w-9 items-center justify-center pl-3 xl:px-0">
+        <div className="ml-auto flex h-9 w-9 items-center justify-center">
           <SparklesIcon className="h-5 text-white" />
         </div>
       </div>
