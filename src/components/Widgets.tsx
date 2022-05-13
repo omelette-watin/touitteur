@@ -5,7 +5,7 @@ import Widget from "./Widget"
 
 const Widgets = () => {
   return (
-    <div className="my-8 ml-4 hidden w-[350px] space-y-4 lg:block">
+    <div className="my-3 ml-4 hidden w-[350px] space-y-4 lg:block">
       <SearchBar />
       <Widget>
         <TrendingHashtags />
