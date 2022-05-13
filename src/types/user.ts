@@ -1,4 +1,10 @@
 export interface UserType {
+  _count?: {
+    followers: number
+    following: number
+    tweets: number
+    retweets: number
+  }
   id: string
   username: string
   profileName?: string
