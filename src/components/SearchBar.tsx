@@ -61,10 +61,14 @@ const SearchBar = () => {
     <div
       ref={barRef}
       className={classNames("w-full lg:relative lg:mr-1 lg:p-0", {
-        "fixed inset-0 bg-black p-3": focused,
+        "fixed inset-0 overscroll-none bg-black py-3": focused,
       })}
     >
-      <div className="flex w-full items-center">
+      <div
+        className={classNames("flex w-full items-center lg:px-0", {
+          "px-3": focused,
+        })}
+      >
         <button
           type="button"
           className={classNames("mr-3 lg:hidden", {
@@ -88,7 +92,7 @@ const SearchBar = () => {
           <FaSearch className="transition-colors ease-in-out" />
           <input
             name="q"
-            type="search"
+            type="text"
             value={search}
             onChange={handleChange}
             className="w-full border-none bg-transparent px-2 py-1 text-slate-200 outline-none sm:px-3 sm:py-2"
