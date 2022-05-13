@@ -1,10 +1,11 @@
 import api from "@/api/api"
 import useOnClickOutside from "@/hooks/useOnClickOutside"
 import { UserType } from "@/types/user"
+import { ArrowRightIcon, XIcon } from "@heroicons/react/outline"
 import classNames from "classnames"
 import Image from "next/image"
 import { useRouter } from "next/router"
-import { useEffect, useRef, useState } from "react"
+import { FormEvent, useEffect, useRef, useState } from "react"
 import { FaSearch } from "react-icons/fa"
 import { useDebounce } from "use-debounce"
 
@@ -17,7 +18,7 @@ const SearchBar = () => {
   const [debouncedSearch] = useDebounce(search, 500)
   const [searchResults, setSearchResults] = useState<UserType[] | []>([])
   const [focused, setFocused] = useState(false)
-  const barRef = useRef<HTMLDivElement>(null)
+  const barRef = useRef<HTMLFormElement>(null)
   const handleChange = (e: any) => {
     setSearch(e.target.value)
   }
@@ -25,6 +26,10 @@ const SearchBar = () => {
     setSearch("")
     setFocused(false)
     router.push(path)
+  }
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault()
+    router.push(`/search?q=${search}`)
   }
 
   useEffect(() => {
@@ -38,10 +43,11 @@ const SearchBar = () => {
   useOnClickOutside(barRef, () => setFocused(false))
 
   return (
-    <div
+    <form
+      onSubmit={handleSubmit}
       ref={barRef}
       className={classNames(
-        "relative mr-1 flex items-center rounded-full border px-5 py-1 shadow-md transition-colors ease-in-out",
+        "relative flex w-full items-center rounded-full border px-5 py-1 shadow-md transition-colors ease-in-out sm:mr-1",
         {
           "border-blue-500 text-blue-500": focused,
           "border-neutral-900/70 bg-neutral-800/70": !focused,
@@ -51,15 +57,34 @@ const SearchBar = () => {
     >
       <FaSearch className="transition-colors ease-in-out" />
       <input
+        name="q"
         type="text"
         value={search}
         onChange={handleChange}
-        className="w-full border-none bg-transparent px-3 py-2 text-slate-200 outline-none"
+        className="w-full border-none bg-transparent px-2 py-1 text-slate-200 outline-none sm:px-3 sm:py-2"
         placeholder="Search Touitteur"
+        autoComplete="off"
       />
+      {search && (
+        <>
+          <button
+            type="submit"
+            className="block rounded-full bg-blue-500 p-1 text-black sm:hidden"
+          >
+            <ArrowRightIcon className="h-4" />
+          </button>
+          <button
+            type="button"
+            className="hidden rounded-full bg-blue-500 p-1 text-black sm:block"
+            onClick={() => setSearch("")}
+          >
+            <XIcon className="h-4" />
+          </button>
+        </>
+      )}
       {focused && (
         <div className="absolute top-14 left-1/2 min-h-[120px] w-full -translate-x-1/2 transform rounded-md bg-black text-slate-500 shadow shadow-slate-200/50">
-          {search === "" && (
+          {!debouncedSearch && (
             <p className="m-4 text-center text-sm">
               Try searching for people, topics or keywords
             </p>
@@ -68,6 +93,7 @@ const SearchBar = () => {
             <p className="m-4 text-slate-200">Search for "{debouncedSearch}"</p>
           )}
           {debouncedSearch &&
+            searchResults.length > 0 &&
             searchResults.map((user) => {
               return (
                 <div
@@ -91,9 +117,12 @@ const SearchBar = () => {
                 </div>
               )
             })}
+          {debouncedSearch && !searchResults.length && (
+            <p className="text-center">No result</p>
+          )}
         </div>
       )}
-    </div>
+    </form>
   )
 }
 
