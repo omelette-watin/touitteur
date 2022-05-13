@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, RefObject } from "react"
+import { useEffect, RefObject, KeyboardEvent } from "react"
 
-type Event = MouseEvent | TouchEvent
+type Event = MouseEvent | TouchEvent | any
 
 const useOnClickOutside = <T extends HTMLElement = HTMLElement>(
   ref: RefObject<T>,
@@ -10,6 +10,10 @@ const useOnClickOutside = <T extends HTMLElement = HTMLElement>(
   useEffect(() => {
     const listener = (event: Event) => {
       const el = ref?.current
+
+      if (event.key && event.key === "Escape") {
+        handler(event)
+      }
 
       if (!el || el.contains((event?.target as Node) || null)) {
         return
@@ -20,10 +24,12 @@ const useOnClickOutside = <T extends HTMLElement = HTMLElement>(
 
     document.addEventListener("mousedown", listener)
     document.addEventListener("touchstart", listener)
+    document.addEventListener("keydown", listener)
 
     return () => {
       document.removeEventListener("mousedown", listener)
       document.removeEventListener("touchstart", listener)
+      document.removeEventListener("keydown", listener)
     }
   }, [ref, handler])
 }
