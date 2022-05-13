@@ -1,7 +1,7 @@
 import useOnClickOutside from "@/hooks/useOnClickOutside"
 import useModal from "@/hooks/useModal"
 import classNames from "classnames"
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import { XIcon } from "@heroicons/react/outline"
 import TweetBox from "./TweetBox"
 import useReplyTo from "@/hooks/useReplyTo"
@@ -18,6 +18,17 @@ const Modal = (): JSX.Element => {
       setModal("")
     }
   }
+
+  useEffect(() => {
+    if (modal) {
+      document.body.style.overflow = "hidden"
+    }
+
+    return () => {
+      document.body.style.overflow = "unset"
+    }
+  }, [modal])
+
   useOnClickOutside(modalContentRef, handleCloseModal)
 
   return (
