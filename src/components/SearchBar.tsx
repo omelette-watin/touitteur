@@ -1,13 +1,7 @@
 import api from "@/api/api"
 import useOnClickOutside from "@/hooks/useOnClickOutside"
 import { UserType } from "@/types/user"
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  SparklesIcon,
-  UserIcon,
-  XIcon,
-} from "@heroicons/react/outline"
+import { ArrowRightIcon, UserIcon, XIcon } from "@heroicons/react/outline"
 import classNames from "classnames"
 import Image from "next/image"
 import { useRouter } from "next/router"
@@ -26,7 +20,7 @@ const SearchBar = () => {
   const [searchResults, setSearchResults] = useState<UserType[] | []>([])
   const [loading, setLoading] = useState(false)
   const [focused, setFocused] = useState(false)
-  const barRef = useRef<HTMLDivElement>(null)
+  const barRef = useRef<HTMLFormElement>(null)
   const handleChange = (e: any) => {
     setSearch(e.target.value)
   }
@@ -44,95 +38,66 @@ const SearchBar = () => {
   }
 
   useEffect(() => {
-    setLoading(true)
-
     if (debouncedSearch) {
-      getSearchResult(debouncedSearch).then(setSearchResults)
+      setLoading(true)
+      getSearchResult(debouncedSearch).then((data) => {
+        setSearchResults(data)
+        setTimeout(() => setLoading(false), 500)
+      })
     } else {
       setSearchResults([])
     }
-
-    setLoading(false)
   }, [debouncedSearch])
 
   useOnClickOutside(barRef, () => defocus())
 
   return (
-    <div
+    <form
       ref={barRef}
-      className={classNames("w-full lg:relative lg:mr-1 lg:p-0", {
-        "fixed inset-0 overscroll-none bg-black py-3": focused,
-      })}
+      onSubmit={handleSubmit}
+      className={classNames(
+        "relative flex w-full items-center rounded-full border px-5 py-1 shadow-md transition-colors ease-in-out",
+        {
+          "border-blue-500 text-blue-500": focused,
+          "border-neutral-900/70 bg-neutral-800/70": !focused,
+        }
+      )}
+      onFocus={() => setFocused(true)}
     >
-      <div
-        className={classNames("flex w-full items-center lg:px-0", {
-          "px-3": focused,
-        })}
-      >
-        <button
-          type="button"
-          className={classNames("mr-3 lg:hidden", {
-            hidden: !focused,
-          })}
-          onClick={defocus}
-        >
-          <ArrowLeftIcon className="h-5" />
-        </button>
-        <form
-          onSubmit={handleSubmit}
-          className={classNames(
-            "flex w-full items-center rounded-full border px-5 py-1 shadow-md transition-colors ease-in-out",
-            {
-              "border-blue-500 text-blue-500": focused,
-              "border-neutral-900/70 bg-neutral-800/70": !focused,
-            }
-          )}
-          onFocus={() => setFocused(true)}
-        >
-          <FaSearch className="transition-colors ease-in-out" />
-          <input
-            name="q"
-            type="text"
-            value={search}
-            onChange={handleChange}
-            className="w-full border-none bg-transparent px-2 py-1 text-slate-200 outline-none sm:px-3 sm:py-2"
-            placeholder="Search Touitteur"
-            autoComplete="off"
-          />
-          {search && (
-            <>
-              <button
-                type="submit"
-                className="block rounded-full bg-blue-500 p-1 text-black sm:hidden"
-              >
-                <ArrowRightIcon className="h-4" />
-              </button>
-              <button
-                type="button"
-                className={classNames(
-                  "hidden rounded-full bg-blue-500 p-1 text-black lg:block",
-                  {
-                    "lg:hidden": !focused,
-                  }
-                )}
-                onClick={() => setSearch("")}
-              >
-                <XIcon className="h-4" />
-              </button>
-            </>
-          )}
-        </form>
-        <button
-          type="button"
-          className={classNames("ml-3 lg:hidden", {
-            hidden: !focused,
-          })}
-        >
-          <SparklesIcon className="h-5" />
-        </button>
-      </div>
+      <FaSearch className="transition-colors ease-in-out" />
+      <input
+        name="q"
+        type="text"
+        value={search}
+        onChange={handleChange}
+        className="w-full border-none bg-transparent px-2 py-1 text-slate-200 outline-none sm:px-3 sm:py-2"
+        placeholder="Search Touitteur"
+        autoComplete="off"
+      />
+      {search && (
+        <>
+          <button
+            type="submit"
+            className="block rounded-full bg-blue-500 p-1 text-black sm:hidden"
+          >
+            <ArrowRightIcon className="h-4" />
+          </button>
+          <button
+            type="button"
+            className={classNames(
+              "hidden rounded-full bg-blue-500 p-1 text-black lg:block",
+              {
+                "lg:hidden": !focused,
+              }
+            )}
+            onClick={() => setSearch("")}
+          >
+            <XIcon className="h-4" />
+          </button>
+        </>
+      )}
       {focused && (
-        <div className="w-full rounded-md bg-black text-slate-500 shadow lg:absolute lg:left-1/2 lg:top-14 lg:max-h-[50vh] lg:min-h-[120px] lg:-translate-x-1/2 lg:transform lg:overflow-y-auto lg:shadow-slate-200/50">
+        <div className="absolute left-1/2 top-14 max-h-[50vh] min-h-[120px] w-full -translate-x-1/2 transform overflow-y-auto rounded-md bg-black text-slate-500 shadow shadow-slate-200/50">
           {!debouncedSearch && (
             <p className="m-4 text-center text-sm">
               Try searching for people, topics or keywords
@@ -177,7 +142,7 @@ const SearchBar = () => {
             })}
         </div>
       )}
-    </div>
+    </form>
   )
 }
 
