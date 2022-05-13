@@ -56,7 +56,7 @@ const SearchBar = () => {
       ref={barRef}
       onSubmit={handleSubmit}
       className={classNames(
-        "relative flex w-full items-center rounded-full border px-5 py-1 shadow-md transition-colors ease-in-out",
+        "relative flex w-full items-center rounded-full border px-5 py-1 pr-3 shadow-md transition-colors ease-in-out sm:pr-5",
         {
           "border-blue-500 text-blue-500": focused,
           "border-neutral-900/70 bg-neutral-800/70": !focused,
@@ -97,7 +97,7 @@ const SearchBar = () => {
         </>
       )}
       {focused && (
-        <div className="absolute left-1/2 top-14 max-h-[50vh] min-h-[120px] w-full -translate-x-1/2 transform overflow-y-auto rounded-md bg-black text-slate-500 shadow shadow-slate-200/50">
+        <div className="absolute left-1/2 top-14 max-h-[50vh] min-h-[120px] w-[90vw] -translate-x-1/2 transform overflow-y-auto rounded-md bg-black text-slate-500 shadow shadow-slate-200/50 sm:w-full">
           {!debouncedSearch && (
             <p className="m-4 text-center text-sm">
               Try searching for people, topics or keywords
