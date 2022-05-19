@@ -3,6 +3,29 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import Loading from "./ui/Loading"
 
+export const TrendingHashtag = ({
+  hashtag,
+}: {
+  hashtag: {
+    name: string
+    _count: { tweets: number }
+    id: string
+  }
+}) => {
+  return (
+    <Link href={`/hashtag/${hashtag.name}`} key={hashtag.id}>
+      <a className="block px-4 py-2 transition-colors ease-in-out hover:bg-neutral-800">
+        <h3 className="truncate text-lg font-bold text-slate-200">
+          #{hashtag.name}
+        </h3>
+        <p>
+          {hashtag._count.tweets} tweet
+          {hashtag._count.tweets > 1 && "s"}
+        </p>
+      </a>
+    </Link>
+  )
+}
 const TrendingHashtags = () => {
   const [trendingHashtags, setTrendingHashtags] = useState([])
   const [loadingHashtag, setLoadingHashtags] = useState(true)
@@ -30,19 +53,7 @@ const TrendingHashtags = () => {
               _count: { tweets: number }
               id: string
             }) => {
-              return (
-                <Link href={`/hashtag/${hashtag.name}`} key={hashtag.id}>
-                  <a className="px-4 py-2 transition-colors ease-in-out hover:bg-neutral-800">
-                    <h3 className="truncate text-lg font-bold text-slate-200">
-                      #{hashtag.name}
-                    </h3>
-                    <p>
-                      {hashtag._count.tweets} tweet
-                      {hashtag._count.tweets > 1 && "s"}
-                    </p>
-                  </a>
-                </Link>
-              )
+              return <TrendingHashtag hashtag={hashtag} key={hashtag.id} />
             }
           )}
       </div>

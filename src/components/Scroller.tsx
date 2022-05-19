@@ -1,12 +1,14 @@
 import InfiniteScroll from "react-infinite-scroll-component"
+import { Suggestion } from "./FollowSuggestions"
+import { TrendingHashtag } from "./TrendingHashtags"
 import Tweet from "./Tweet"
 import Loading from "./ui/Loading"
-import { TweetEventType, TweetType } from "@/types/tweet"
 
 interface ScrollerProps {
-  tweets: TweetType[] | [] | TweetEventType[]
+  tweets: any[]
   hasMore: boolean
   endMessage?: string
+  type?: "tweet" | "user" | "hashtag"
   loadMore: () => void
 }
 
@@ -19,6 +21,7 @@ const Scroller = ({
   loadMore,
   tweets,
   hasMore,
+  type = "tweet",
   endMessage = "Nothing else to show for now...",
 }: ScrollerProps) => {
   const EndMessage = (
@@ -42,7 +45,17 @@ const Scroller = ({
     >
       {tweets.length > 0 &&
         tweets.map((tweet) => {
-          return <Tweet element={tweet} key={tweet.id} />
+          if (type === "tweet") {
+            return <Tweet element={tweet} key={tweet.id} />
+          }
+
+          if (type === "user") {
+            return <Suggestion user={tweet} key={tweet.id} />
+          }
+
+          if (type === "hashtag") {
+            return <TrendingHashtag hashtag={tweet} key={tweet.id} />
+          }
         })}
     </InfiniteScroll>
   )

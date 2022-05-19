@@ -7,7 +7,7 @@ const Widgets = () => {
   return (
     <div className="my-3 ml-4 hidden w-[350px] space-y-4 lg:block">
       <div className="sticky top-0 z-10 w-full bg-black py-2">
-        <SearchBar />
+        <SearchBar side={true} />
       </div>
       <Widget>
         <TrendingHashtags />

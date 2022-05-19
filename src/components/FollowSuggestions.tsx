@@ -9,7 +9,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import Loading from "./ui/Loading"
 
-const Suggestion = ({ user }: { user: UserType }) => {
+export const Suggestion = ({ user }: { user: UserType }) => {
   const { user: currentUser, setUser } = useAuth()
   const router = useRouter()
   const handleClickOnUser = () => {

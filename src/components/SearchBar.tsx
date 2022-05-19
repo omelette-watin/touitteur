@@ -13,7 +13,7 @@ import Loading from "./ui/Loading"
 const getSearchResult = (searchTerm: string) => {
   return api.get(`/users/search/${searchTerm}`).then(({ data }) => data)
 }
-const SearchBar = () => {
+const SearchBar = ({ side = false }: { side?: boolean }) => {
   const router = useRouter()
   const [search, setSearch] = useState("")
   const [debouncedSearch] = useDebounce(search, 500)
@@ -26,12 +26,13 @@ const SearchBar = () => {
   }
   const handleOnResultClick = (path: string) => {
     setSearch("")
-    setFocused(false)
+    defocus()
     router.push(path)
   }
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    router.push(`/search?q=${search}`)
+    defocus()
+    router.push(`/search?q=${encodeURIComponent(search)}`)
   }
   const defocus = () => {
     setFocused(false)
@@ -40,7 +41,7 @@ const SearchBar = () => {
   useEffect(() => {
     if (debouncedSearch) {
       setLoading(true)
-      getSearchResult(debouncedSearch).then((data) => {
+      getSearchResult(encodeURIComponent(debouncedSearch)).then((data) => {
         setSearchResults(data)
         setTimeout(() => setLoading(false), 500)
       })
@@ -48,6 +49,14 @@ const SearchBar = () => {
       setSearchResults([])
     }
   }, [debouncedSearch])
+
+  useEffect(() => {
+    if (side) {
+      setSearch("")
+    } else {
+      setSearch(router.query.q as string)
+    }
+  }, [router, side])
 
   useOnClickOutside(barRef, () => defocus())
 
@@ -97,7 +106,7 @@ const SearchBar = () => {
         </>
       )}
       {focused && (
-        <div className="absolute left-1/2 top-14 max-h-[50vh] min-h-[120px] w-[90vw] -translate-x-1/2 transform overflow-y-auto rounded-md bg-black text-slate-500 shadow shadow-slate-200/50 sm:w-full">
+        <div className="absolute left-1/2 top-14 z-30 max-h-[50vh] min-h-[120px] w-[90vw] -translate-x-1/2 transform overflow-y-auto rounded-md bg-black text-slate-500 shadow shadow-slate-200/50 sm:w-full">
           {!debouncedSearch && (
             <p className="m-4 text-center text-sm">
               Try searching for people, topics or keywords
