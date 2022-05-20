@@ -50,10 +50,10 @@ const Explore = () => {
     <MainWrapper title="Explore">
       <>
         <div className="border-b border-gray-700">
-          <TrendingHashtags />
+          <FollowSuggestions take={8} />
         </div>
         <div className="border-b border-gray-700">
-          <FollowSuggestions take={8} />
+          <TrendingHashtags />
         </div>
         <div className="py-3">
           <h1 className="px-4 text-xl font-extrabold text-slate-200">Tweets</h1>
