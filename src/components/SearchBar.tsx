@@ -40,11 +40,23 @@ const SearchBar = ({ side = false }: { side?: boolean }) => {
 
   useEffect(() => {
     if (debouncedSearch) {
-      setLoading(true)
-      getSearchResult(encodeURIComponent(debouncedSearch)).then((data) => {
-        setSearchResults(data)
-        setTimeout(() => setLoading(false), 500)
-      })
+      if (!debouncedSearch.startsWith("@")) {
+        setLoading(true)
+        getSearchResult(encodeURIComponent(debouncedSearch)).then((data) => {
+          setSearchResults(data)
+          setTimeout(() => setLoading(false), 500)
+        })
+      } else if (debouncedSearch.length > 1) {
+        setLoading(true)
+        getSearchResult(
+          encodeURIComponent(debouncedSearch.replace("@", ""))
+        ).then((data) => {
+          setSearchResults(data)
+          setTimeout(() => setLoading(false), 500)
+        })
+      } else {
+        setSearchResults([])
+      }
     } else {
       setSearchResults([])
     }
