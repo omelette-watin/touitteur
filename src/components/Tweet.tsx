@@ -213,7 +213,10 @@ const Tweet = ({ element }: { element: TweetType | TweetEventType }) => {
           <div className="whitespace-pre-wrap break-words text-slate-200">
             {HighlightedTweet(tweet.plainText)}
           </div>
-          <div className="mt-2 flex items-center justify-between text-xs sm:pr-8 lg:text-sm">
+          <div
+            className="mt-2 flex items-center justify-between text-xs sm:pr-8 lg:text-sm"
+            onClick={(e) => stopPropagation(e)}
+          >
             <button
               className="hover:text-twitter group relative flex cursor-pointer items-center space-x-1 transition ease-in-out"
               onClick={handleReply}
