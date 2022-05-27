@@ -2,7 +2,7 @@ import Image from "next/image"
 import { CalendarIcon } from "@heroicons/react/solid"
 import { DateClassic } from "./ui/Date"
 import useAuth from "@/hooks/useAuth"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import api from "@/api/api"
 import classNames from "classnames"
 import { UserType } from "@/types/user"
@@ -17,6 +17,7 @@ const ProfileHeader = ({ user }: { user: UserType }) => {
   const isCurrentUserProfile = currentUser?.id === user.id
   const [following, setFollowing] = useState(false)
   const [follwingText, setFollowingText] = useState("Following")
+  const [imageSrc, setImageSrc] = useState("")
   const { modal, setModal } = useModal()
   const handleFollow = () => {
     setFollowing(true)
@@ -46,17 +47,31 @@ const ProfileHeader = ({ user }: { user: UserType }) => {
     setModal("edit-profile")
   }
 
+  useEffect(() => {
+    if (isCurrentUserProfile) {
+      setImageSrc(currentUser.urlAvatar)
+    } else {
+      setImageSrc(urlAvatar)
+    }
+
+    return () => {
+      setImageSrc("")
+    }
+  }, [user, isCurrentUserProfile, currentUser, urlAvatar])
+
   return (
     <div className="flex w-full flex-col items-start space-y-8 border-b border-gray-700 py-4 px-5">
       <div className="flex w-full flex-col space-y-4 sm:flex-row sm:space-x-10">
         <div className="flex-shrink-0 ">
-          <Image
-            src={isCurrentUserProfile ? currentUser?.urlAvatar : urlAvatar}
-            width={150}
-            height={150}
-            className="rounded-full"
-            alt={`avatar de @${username}`}
-          />
+          {imageSrc && (
+            <Image
+              src={imageSrc}
+              width={150}
+              height={150}
+              className="rounded-full"
+              alt={`avatar de @${username}`}
+            />
+          )}
         </div>
 
         <div className="flex w-full flex-wrap items-center justify-between space-y-2 sm:w-[70%] sm:flex-col sm:items-start sm:pb-6">
