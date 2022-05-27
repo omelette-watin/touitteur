@@ -7,6 +7,7 @@ import api from "@/api/api"
 import classNames from "classnames"
 import { UserType } from "@/types/user"
 import useModal from "@/hooks/useModal"
+import HighlightedTweet from "./ui/HighlightedTweet"
 
 const ProfileHeader = ({ user }: { user: UserType }) => {
   const { username, profileName, urlAvatar, bio, stats, createdAt } = user
@@ -96,9 +97,13 @@ const ProfileHeader = ({ user }: { user: UserType }) => {
 
       <p className="max-w-full whitespace-pre-wrap break-words text-white">
         {isCurrentUserProfile ? (
-          <span>{currentUser?.bio || "This user has no bio yet ..."}</span>
+          <span>
+            {HighlightedTweet(
+              currentUser?.bio || "This user has no bio yet ..."
+            )}
+          </span>
         ) : (
-          <span>{bio || "This user has no bio yet ..."}</span>
+          <span>{HighlightedTweet(bio || "This user has no bio yet ...")}</span>
         )}
       </p>
 
