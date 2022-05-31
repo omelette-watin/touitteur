@@ -4,10 +4,12 @@ import { useField } from "formik"
 
 const InputForm = (props: any) => {
   const [field, meta] = useField(props)
-  const [didFocus, setDidFocus] = useState(false)
-  const handleFocus = () => setDidFocus(true)
-  const showFeedback =
-    (!!didFocus && field.value.trim().length > 2) || meta.touched
+  // const [didFocus, setDidFocus] = useState(false)
+  const [didBlur, setDidBlur] = useState(false)
+  // const handleFocus = () => setDidFocus(true)
+  const handleBlur = () => setDidBlur(true)
+  const showFeedback = didBlur
+  // (!!didFocus && field.value.trim().length > 2) || meta.touched
 
   return (
     <>
@@ -36,7 +38,8 @@ const InputForm = (props: any) => {
             }
           )}
           aria-describedby={`${props.id}-feedback ${props.id}-help`}
-          onFocus={handleFocus}
+          // onFocus={handleFocus}
+          onBlur={handleBlur}
         />
       </div>
       {showFeedback && meta.error ? (
