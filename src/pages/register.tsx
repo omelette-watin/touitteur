@@ -52,7 +52,7 @@ const Register = () => {
     <GalaxyBackground>
       <div className="fadeUp flex flex-col items-center justify-center space-y-6 rounded-lg bg-neutral-900/[.85] px-8 pt-8 pb-2 text-white shadow-md">
         <Head>
-          <title>Sign up - Twouitteur</title>
+          <title>Sign up - Touitteur</title>
         </Head>
         <Image
           src="/twouitteur.svg"

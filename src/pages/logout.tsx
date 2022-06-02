@@ -30,7 +30,7 @@ const Logout = () => {
   return (
     <GalaxyBackground>
       <Head>
-        <title>Log out - Twouitteur</title>
+        <title>Log out - Touitteur</title>
       </Head>
       <div className="flex flex-col items-center justify-center rounded-lg bg-neutral-900/[.85] px-8 py-8 text-slate-200 shadow-md">
         <Image
@@ -39,9 +39,7 @@ const Logout = () => {
           height={50}
           alt="twouitteur logo"
         />
-        <h2 className="my-10 text-2xl font-semibold">
-          Log out of Twouitteur ?
-        </h2>
+        <h2 className="my-10 text-2xl font-semibold">Log out of Touitteur ?</h2>
 
         <button
           className="mb-5 block h-[52px] w-56 rounded-full bg-slate-200 text-lg font-bold text-black shadow-md transition duration-200 ease-out hover:scale-95 hover:bg-slate-300"

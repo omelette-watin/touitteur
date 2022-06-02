@@ -7,7 +7,7 @@ const ConnectionScreen = () => {
   return (
     <GalaxyBackground>
       <Head>
-        <title>Twouitteur</title>
+        <title>Touitteur</title>
       </Head>
       <div className="flex flex-col items-center justify-center text-white xl:flex-row">
         <Image

@@ -20,7 +20,7 @@ const Login = () => {
   return (
     <GalaxyBackground>
       <Head>
-        <title>Sign in - Twouitteur</title>
+        <title>Sign in - Touitteur</title>
       </Head>
       <div className="fadeUp flex flex-col items-center justify-center space-y-6 rounded-lg bg-neutral-900/[.85] px-8 pt-8 pb-2 text-slate-200 shadow-md">
         <Image
