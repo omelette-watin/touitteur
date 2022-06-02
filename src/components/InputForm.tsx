@@ -25,7 +25,7 @@ const InputForm = (props: any) => {
             }
           )}
         >
-          {!meta.error && showFeedback ? "✓" : "*"}
+          {!meta.error && meta.value ? "✓" : "*"}
         </span>
         <input
           {...props}
