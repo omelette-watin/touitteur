@@ -2,7 +2,7 @@ import Image from "next/image"
 import { CalendarIcon } from "@heroicons/react/solid"
 import { DateClassic } from "./ui/Date"
 import useAuth from "@/hooks/useAuth"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import api from "@/api/api"
 import classNames from "classnames"
 import { UserType } from "@/types/user"
@@ -45,6 +45,14 @@ const ProfileHeader = ({ user }: { user: UserType }) => {
   const handleEdit = () => {
     setModal("edit-profile")
   }
+
+  useEffect(() => {
+    setFollowersCount(stats?.followers)
+
+    return () => {
+      setFollowersCount(0)
+    }
+  }, [user, stats])
 
   return (
     <div className="flex w-full flex-col items-start space-y-8 border-b border-gray-700 py-4 px-5">
