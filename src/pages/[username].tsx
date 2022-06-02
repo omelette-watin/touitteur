@@ -22,7 +22,7 @@ const UserProfile = ({ user }: { user: UserType }) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { data: user } = await api
-    .get(`/users/name/${params?.username}`)
+    .get(`/users/name/${encodeURIComponent(params?.username as string)}`)
     .catch(() => {
       return { data: null }
     })
