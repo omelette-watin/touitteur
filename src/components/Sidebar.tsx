@@ -25,7 +25,7 @@ const Sidebar = (): JSX.Element => {
   const isActive = (pathname: string) => pathname === window.location.pathname
 
   return (
-    <div className="fixed hidden h-full flex-col items-center p-2 sm:flex xl:w-[340px] xl:items-start">
+    <div className="fixed hidden h-full flex-col items-center overflow-y-scroll p-2 scrollbar-hide sm:flex xl:w-[340px] xl:items-start">
       <Link href={"/"}>
         <a className="hoverAnimation flex h-14 w-14 items-center justify-center p-0 xl:ml-24">
           <Image
@@ -61,7 +61,7 @@ const Sidebar = (): JSX.Element => {
         <SidebarLink Icon={DotsCircleHorizontalIcon}>More</SidebarLink>
       </div>
       <Button
-        className="ml-auto hidden h-[52px] w-56 xl:inline"
+        className="ml-auto hidden h-[52px] w-56 py-2 xl:inline"
         onClick={handleOpenTweetModal}
       >
         Tweet

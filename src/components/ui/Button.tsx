@@ -13,7 +13,7 @@ const Button = ({
   return (
     <button
       className={classNames(
-        "bg-twitter mt-2 rounded-full text-lg font-bold text-white shadow-md hover:bg-[#1a8cd8]",
+        "bg-twitter my-2 rounded-full text-lg font-bold text-white shadow-md hover:bg-[#1a8cd8]",
         className
       )}
       {...otherProps}
